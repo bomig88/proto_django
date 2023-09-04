@@ -8,8 +8,6 @@ from content.views.serializers.test_serializer import TestSerializer02
 from _musicbox.containers import Services
 from utils.response_data import ResponseData
 
-# Create your views here.
-
 NM = '컨텐츠 테스트'
 RES_LIST_NM = 'content_tests'
 RES_DETAIL_NM = 'content_test'
@@ -26,11 +24,11 @@ class TestView(APIView):
         responses={status.HTTP_200_OK: TestSerializer02.DetailGetResponse()}
     )
     def get(self, request: Request, **kwargs: dict) -> Response:
-        """요청에 대한 쇼핑몰 상세를 반환합니다.
+        """
         Args:
           kwargs: path 파라미터
         Returns:
-          쇼핑몰 상세 응답
+
         """
         query_params = request.query_params.dict()
 

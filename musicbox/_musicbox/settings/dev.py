@@ -1,7 +1,30 @@
+from datetime import timedelta
+
 from _musicbox.settings.common import *
 
 STAGE = "dev"
 DEBUG = True
+
+# simple jwt 설정
+# TODO: ACCESS_TOKEN_LIFETIME 운영 반영 시점 때 시간값 정책 검토 필요 (현재는 테스트용 시간)
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=10),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': False,
+    'UPDATE_LAST_LOGIN': False,
+
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'VERIFYING_KEY': None,
+    'AUDIENCE': None,
+    'ISSUER': None,
+    'JWK_URL': None,
+    'LEEWAY': 0,
+
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'USER_ID_FIELD': 'seq',
+}
 
 # LOGGING
 #   disable_existing_loggers: 기존 로깅 비활성화 여부

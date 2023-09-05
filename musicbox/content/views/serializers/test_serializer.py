@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from utils.swagger_response_serializer import ResponseSerializer
+from core.formats.swagger_response_serializer import ResponseSerializer
 
 
 class TestSerializer01:

@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 
 from member.views.serializers.test_serializer import TestSerializer02
 from _musicbox.containers import Services
-from utils.response_data import ResponseData
+from core.formats.response_data import ResponseData
 
 NM = '회원 테스트'
 RES_LIST_NM = 'user_tests'

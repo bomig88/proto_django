@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from dateutil.relativedelta import relativedelta
 
 
@@ -36,3 +36,52 @@ class DatetimeUtil:
             return return_date.strftime(format)
 
         return return_date
+
+    @staticmethod
+    def validate_date_str(reference_time: str = None, format: str = '%Y-%m-%d %H:%M:%S.%f'):
+        """
+        날짜시간(str) 이 유효한 날짜 값인지 검증합니다.
+        Args:
+            reference_time: 기준시간
+            format: 시간 포멧
+        Returns:
+            True / False
+        """
+        try:
+            DatetimeUtil.str_to_datetime(reference_time, format)
+            return True
+        except (Exception,):
+            return False
+
+    @staticmethod
+    def date_to_str(reference_time: date = None, format: str = '%Y-%m-%d') -> str:
+        """
+            날짜(date)를 str 타입으로 변환합니다.
+        Args:
+            reference_time: 기준일
+            format: 날짜 포멧
+        Returns:
+            날짜(str)
+
+        """
+        if reference_time is None:
+            reference_time = datetime.today()
+        if type(reference_time) is not date:
+            raise ValueError('기준시간의 유형(datetime.date)을 확인해 주세요.')
+
+        return reference_time.strftime(format)
+
+    @staticmethod
+    def str_to_datetime(reference_time: str = None, format: str = '%Y-%m-%d %H:%M:%S.%f') -> datetime:
+        """
+            날짜시간(str)을 datatime 타입으로 변환합니다.
+        Args:
+            reference_time: 기준시간
+            format: 시간 포멧
+        Returns:
+            시간(datetime)
+        """
+        if reference_time is None:
+            raise ValueError('기준시간을 입력해 주세요.')
+
+        return datetime.strptime(reference_time, format)

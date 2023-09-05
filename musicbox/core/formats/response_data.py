@@ -3,7 +3,7 @@ from django.db.models import ProtectedError
 from rest_framework.exceptions import ValidationError, ErrorDetail, NotAuthenticated, PermissionDenied
 from rest_framework.response import Response
 from rest_framework_simplejwt.exceptions import AuthenticationFailed, TokenError, InvalidToken
-from utils.logging_util import LoggingUtil
+from core.utils.logging_util import LoggingUtil
 
 
 class ResponseData:

@@ -35,7 +35,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'verbose': {
-            'format': '%(asctime)s %(levelname)s[%(filename)s/line%(lineno)s]: %(message)s',
+            'formats': '%(asctime)s %(levelname)s[%(filename)s/line%(lineno)s]: %(message)s',
             'datefmt': '%Y-%m-%d %H:%M:%S'
         },
         'sql': {

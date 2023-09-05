@@ -41,7 +41,7 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
     ),
-    'EXCEPTION_HANDLER': 'utils.ws_exception.custom_exception_handler',
+    'EXCEPTION_HANDLER': 'core.exceptions.ws_exception.custom_exception_handler',
 }
 
 MIDDLEWARE = [
@@ -141,7 +141,7 @@ STATIC_ROOT = os.path.join(Path(__file__).resolve().parent.parent.parent, 'stati
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # 인증 테이블
-AUTH_USER_MODEL = 'member.Member'
+# AUTH_USER_MODEL = 'member.Member'
 
 # 인증 방식 정의
 # AUTHENTICATION_BACKENDS = [

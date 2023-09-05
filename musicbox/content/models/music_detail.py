@@ -11,11 +11,12 @@ class MusicDetail(models.Model):
         help_text='일련번호(PK)'
     )
 
-    music_seq = models.ForeignKey(
+    music_seq = models.OneToOneField(
         Music,
         on_delete=models.CASCADE,
         db_column='music_seq',
         db_constraint=False,
+        related_name='music_detail',
         help_text='곡 일련번호'
     )
 

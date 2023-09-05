@@ -1,4 +1,4 @@
-from core.formats.response_data import ResponseData
+from core.base.response_data import ResponseData
 
 
 def custom_exception_handler(exc, context):

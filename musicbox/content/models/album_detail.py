@@ -11,12 +11,13 @@ class AlbumDetail(models.Model):
         help_text='일련번호(PK)'
     )
 
-    album_code = models.ForeignKey(
+    album_seq = models.OneToOneField(
         Album,
         on_delete=models.CASCADE,
-        db_column='album_code',
+        db_column='album_seq',
         db_constraint=False,
-        help_text='앨범 코드'
+        related_name='album_detail',
+        help_text='앨범 일련번호'
     )
 
     description = models.TextField(

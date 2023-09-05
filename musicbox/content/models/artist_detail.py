@@ -11,12 +11,13 @@ class ArtistDetail(models.Model):
         help_text='일련번호(PK)'
     )
 
-    artist_code = models.ForeignKey(
+    artist_seq = models.OneToOneField(
         Artist,
         on_delete=models.CASCADE,
-        db_column='artist_code',
+        db_column='artist_seq',
         db_constraint=False,
-        help_text='아티스트 코드'
+        related_name='artist_detail',
+        help_text='아티스트 일련번호'
     )
 
     description = models.TextField(

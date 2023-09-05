@@ -6,9 +6,10 @@ from content.models.artist import Artist
 class Album(models.Model):
     object = None
 
-    class CategoryChoices(models.TextChoices):
+    class GenreChoices(models.TextChoices):
         JPOP = 'JPOP', '재패니즈 팝'
         POP = 'POP', '팝'
+        KPOP = 'KPOP', '한국 팝'
         HIPHOP = 'HIPHOP', '힙합'
         JAZZ = 'JAZZ', '재즈'
         CLASSIC = 'CLASSIC', '클래식'
@@ -36,17 +37,18 @@ class Album(models.Model):
     )
 
     genre = models.CharField(
-        choices=CategoryChoices.choices,
+        choices=GenreChoices.choices,
         max_length=15,
         help_text='장르'
     )
 
-    artist_code = models.ForeignKey(
+    artist_seq = models.OneToOneField(
         Artist,
         on_delete=models.CASCADE,
-        db_column='artist_code',
+        db_column='artist_seq',
         db_constraint=False,
-        help_text='아티스트 코드'
+        related_name='artist',
+        help_text='아티스트 일련번호'
     )
 
     create_at = models.DateTimeField(

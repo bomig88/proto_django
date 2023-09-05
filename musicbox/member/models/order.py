@@ -16,11 +16,12 @@ class Order(models.Model):
         help_text='일련번호(PK)'
     )
 
-    member_seq = models.ForeignKey(
+    member_seq = models.OneToOneField(
         Member,
         on_delete=models.CASCADE,
         db_column='member_seq',
         db_constraint=False,
+        related_name='member',
         help_text='회원 일련번호'
     )
 

@@ -18,7 +18,7 @@ class Music(models.Model):
 
     play_time = models.IntegerField(
         default=0,
-        help_text='재생시간'
+        help_text='재생시간(초)'
     )
 
     price = models.IntegerField(
@@ -26,10 +26,10 @@ class Music(models.Model):
         help_text='판매가'
     )
 
-    album_code = models.ForeignKey(
+    album_seq = models.ForeignKey(
         Album,
         on_delete=models.CASCADE,
-        db_column='album_code',
+        db_column='album_seq',
         db_constraint=False,
         help_text='앨범 코드'
     )

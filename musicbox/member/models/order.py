@@ -4,7 +4,7 @@ from member.models.member import Member
 
 
 class Order(models.Model):
-    object = None
+    objects = None
 
     class StatusChoice(models.TextChoices):
         PAID = 'paid', '구매 완료'

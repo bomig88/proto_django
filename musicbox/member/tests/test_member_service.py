@@ -6,13 +6,12 @@ from django.forms import model_to_dict
 from django.test import TestCase
 
 from _musicbox.containers import Services
-from content.tests.test_album_service import TestAlbumService
+from member.models.member import Member
 
 
 @pytest.mark.django_db
-class TestAlbumDetailService(TestCase):
-    album_detail_service = Services.album_detail_service()
-    test_album_service = TestAlbumService()
+class TestMemberService(TestCase):
+    member_service = Services.member_service()
 
     def test_crud(self):
         print('--create--')
@@ -27,7 +26,7 @@ class TestAlbumDetailService(TestCase):
         self.test_select_model(params=path_param)
 
         print('--modify--')
-        self.test_modify(path_param=path_param, modify_params={'description': f'{instance["description"]}_test!'})
+        self.test_modify(path_param=path_param, modify_params={'gender': Member.GenderChoice.F.value})
 
         print('--select_all--')
         self.test_select_all(params={})
@@ -38,15 +37,16 @@ class TestAlbumDetailService(TestCase):
     def test_create(self, params=None):
         if not params:
             params = dict()
-            params['description'] = '아이브의 앨범입니다.'
-
-            instance = self.test_album_service.test_create()
-            params['album_seq'] = instance['seq']
+            params['username'] = 'mem1'
+            params['email'] = 'bomig88@gmail.com'
+            params['password'] = 'test!1234'
+            params['gender'] = Member.GenderChoice.N.value
+            params['birthday'] = '20010308'
 
         print('params')
         print(params)
 
-        serializer = self.album_detail_service.create(params)
+        serializer = self.member_service.create(params)
 
         print('serializer')
         print(json.dumps(serializer.data, ensure_ascii=False))
@@ -67,7 +67,7 @@ class TestAlbumDetailService(TestCase):
         print('modify_params')
         print(modify_params)
 
-        serializer = self.album_detail_service.modify(
+        serializer = self.member_service.modify(
             path_param=path_param,
             params=modify_params,
             partial=True)
@@ -87,7 +87,7 @@ class TestAlbumDetailService(TestCase):
         print('params')
         print(params)
 
-        serializer = self.album_detail_service.select(path_param=params)
+        serializer = self.member_service.select(path_param=params)
 
         print('serializer')
         print(json.dumps(serializer.data, ensure_ascii=False))
@@ -104,7 +104,7 @@ class TestAlbumDetailService(TestCase):
         print('params')
         print(params)
 
-        model = self.album_detail_service.select_model(path_param=params)
+        model = self.member_service.select_model(path_param=params)
 
         print('model')
         print(json.dumps(model_to_dict(model), ensure_ascii=False, cls=DjangoJSONEncoder))
@@ -115,7 +115,7 @@ class TestAlbumDetailService(TestCase):
         print('params')
         print(params)
 
-        serializer = self.album_detail_service.select_all(params=params)
+        serializer = self.member_service.select_all(params=params)
 
         print('serializer')
         print(json.dumps(serializer.data, ensure_ascii=False))
@@ -126,7 +126,7 @@ class TestAlbumDetailService(TestCase):
         print('params')
         print(params)
 
-        models = self.album_detail_service.select_all_model(params=params)
+        models = self.member_service.select_all_model(params=params)
 
         print('models')
         print(json.dumps(list(models.values()), ensure_ascii=False, cls=DjangoJSONEncoder))

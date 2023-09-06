@@ -4,7 +4,7 @@ from content.models.artist import Artist
 
 
 class Album(models.Model):
-    object = None
+    objects = None
 
     class GenreChoices(models.TextChoices):
         JPOP = 'JPOP', '재패니즈 팝'

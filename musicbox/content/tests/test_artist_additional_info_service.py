@@ -6,13 +6,14 @@ from django.forms import model_to_dict
 from django.test import TestCase
 
 from _musicbox.containers import Services
-from content.tests.test_music_service import TestMusicService
+
+from content.tests.test_artist_service import TestArtistService
 
 
 @pytest.mark.django_db
-class TestMusicDetailService(TestCase):
-    music_detail_service = Services.music_detail_service()
-    test_music_service = TestMusicService()
+class TestArtistDetailService(TestCase):
+    artist_additional_info_service = Services.artist_additional_info_service()
+    test_artist_service = TestArtistService()
 
     def test_crud(self):
         print('--create--')
@@ -27,7 +28,7 @@ class TestMusicDetailService(TestCase):
         self.test_select_model(params=path_param)
 
         print('--modify--')
-        self.test_modify(path_param=path_param, modify_params={'original_artist': f'{instance["composer"]}'})
+        self.test_modify(path_param=path_param, modify_params={'description': f'{instance["description"]}_test!'})
 
         print('--select_all--')
         self.test_select_all(params={})
@@ -37,24 +38,16 @@ class TestMusicDetailService(TestCase):
 
     def test_create(self, params=None):
         if not params:
-            params = dict()
-            params['name'] = '아이브'
-            params['composer'] = '아이브'
-            params['lyricist'] = '아이브'
-            params['original_artist'] = None
-            params['lyrics'] = """
-            가사를 이케 요케 저케 그러케
-            마구 넣어 주면 됩니다
-            참 쉽죵
-            """
+            album_instance = self.test_artist_service.test_create()
 
-            instance = self.test_music_service.test_create()
-            params['music_seq'] = instance['seq']
+            params = dict()
+            params['artist_seq'] = album_instance['seq']
+            params['description'] = '아이브입니다~~~'
 
         print('params')
         print(params)
 
-        serializer = self.music_detail_service.create(params)
+        serializer = self.artist_additional_info_service.create(params)
 
         print('serializer')
         print(json.dumps(serializer.data, ensure_ascii=False))
@@ -68,14 +61,14 @@ class TestMusicDetailService(TestCase):
 
         if not modify_params:
             modify_params = dict()
-            modify_params[''] = None
+            modify_params['description'] = None
 
         print('path_param')
         print(path_param)
         print('modify_params')
         print(modify_params)
 
-        serializer = self.music_detail_service.modify(
+        serializer = self.artist_additional_info_service.modify(
             path_param=path_param,
             params=modify_params,
             partial=True)
@@ -95,7 +88,7 @@ class TestMusicDetailService(TestCase):
         print('params')
         print(params)
 
-        serializer = self.music_detail_service.select(path_param=params)
+        serializer = self.artist_additional_info_service.select(path_param=params)
 
         print('serializer')
         print(json.dumps(serializer.data, ensure_ascii=False))
@@ -112,7 +105,7 @@ class TestMusicDetailService(TestCase):
         print('params')
         print(params)
 
-        model = self.music_detail_service.select_model(path_param=params)
+        model = self.artist_additional_info_service.select_model(path_param=params)
 
         print('model')
         print(json.dumps(model_to_dict(model), ensure_ascii=False, cls=DjangoJSONEncoder))
@@ -123,7 +116,7 @@ class TestMusicDetailService(TestCase):
         print('params')
         print(params)
 
-        serializer = self.music_detail_service.select_all(params=params)
+        serializer = self.artist_additional_info_service.select_all(params=params)
 
         print('serializer')
         print(json.dumps(serializer.data, ensure_ascii=False))
@@ -134,7 +127,7 @@ class TestMusicDetailService(TestCase):
         print('params')
         print(params)
 
-        models = self.music_detail_service.select_all_model(params=params)
+        models = self.artist_additional_info_service.select_all_model(params=params)
 
         print('models')
         print(json.dumps(list(models.values()), ensure_ascii=False, cls=DjangoJSONEncoder))

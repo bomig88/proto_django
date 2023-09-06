@@ -1,12 +1,12 @@
 import django_filters
 
-from content.models.artist_detail import ArtistDetail
+from content.models.music_additional_info import MusicAdditionalInfo
 from core.base.filter_set import FilterSet
 
 
-class ArtistDetailFilter(FilterSet):
+class MusicAdditionalInfoFilter(FilterSet):
     # 일련번호
-    field = ArtistDetail.seq.field
+    field = MusicAdditionalInfo.seq.field
     oper_tp = FilterSet.Type.EXACT
     seq = django_filters.NumberFilter(
         field_name=field.name,
@@ -15,7 +15,7 @@ class ArtistDetailFilter(FilterSet):
     )
 
     # 등록 시작일
-    field = ArtistDetail.create_at.field
+    field = MusicAdditionalInfo.create_at.field
     oper_tp = FilterSet.Type.GTE
     sch_start_create_dt = django_filters.DateTimeFilter(
         field_name=field.name,
@@ -24,7 +24,7 @@ class ArtistDetailFilter(FilterSet):
     )
 
     # 등록 종료일
-    field = ArtistDetail.create_at.field
+    field = MusicAdditionalInfo.create_at.field
     oper_tp = FilterSet.Type.LTE
     sch_end_create_dt = django_filters.DateTimeFilter(
         field_name=field.name,

@@ -1,13 +1,16 @@
-from content.filters.album_detail_filter import AlbumDetailFilter
-from content.models.album_detail import AlbumDetail
-from content.serializers.album_detail_serializer import AlbumDetailSerializer
+from content.filters.album_additional_info_filter import AlbumAdditionalInfoFilter
+from content.models.album_additional_info import AlbumAdditionalInfo
+from content.serializers.album_additional_info_serializer import AlbumAdditionalInfoSerializer, \
+    AlbumAdditionalInfoListSerializer, AlbumAdditionalInfoDetailSerializer
 from core.base.base_service import BaseService
 
 
-class AlbumDetailService(BaseService):
-    queryset_list = AlbumDetail.objects.all()
-    queryset_detail = AlbumDetail.objects.all()
-    serializer = AlbumDetailSerializer
-    filter_set_class = AlbumDetailFilter
+class AlbumAdditionalInfoService(BaseService):
+    queryset_list = AlbumAdditionalInfo.objects.all()
+    queryset_detail = AlbumAdditionalInfo.objects.all()
+    serializer = AlbumAdditionalInfoSerializer
+    serializer_list = AlbumAdditionalInfoListSerializer
+    serializer_detail = AlbumAdditionalInfoDetailSerializer
+    filter_set_class = AlbumAdditionalInfoFilter
 
 

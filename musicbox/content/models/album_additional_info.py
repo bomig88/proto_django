@@ -1,28 +1,28 @@
 from django.db import models
 
-from content.models.artist import Artist
+from content.models.album import Album
 
 
-class ArtistDetail(models.Model):
-    object = None
+class AlbumAdditionalInfo(models.Model):
+    objects = None
 
     seq = models.BigAutoField(
         primary_key=True,
         help_text='일련번호(PK)'
     )
 
-    artist_seq = models.OneToOneField(
-        Artist,
+    album_seq = models.OneToOneField(
+        Album,
         on_delete=models.CASCADE,
-        db_column='artist_seq',
+        db_column='album_seq',
         db_constraint=False,
-        related_name='artist_detail',
-        help_text='아티스트 일련번호'
+        related_name='album_detail',
+        help_text='앨범 일련번호'
     )
 
     description = models.TextField(
         null=True,
-        help_text='아티스트 상세 설명'
+        help_text='앨범 상세 설명'
     )
 
     create_at = models.DateTimeField(
@@ -36,5 +36,5 @@ class ArtistDetail(models.Model):
     )
 
     class Meta:
-        db_table = 't_ct_artist_detail'
+        db_table = 't_ct_album_additional_info'
         ordering = ['-seq']

@@ -4,7 +4,7 @@ from content.models.album import Album
 
 
 class Music(models.Model):
-    object = None
+    objects = None
 
     seq = models.BigAutoField(
         primary_key=True,

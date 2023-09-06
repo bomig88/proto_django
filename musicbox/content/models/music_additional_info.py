@@ -3,8 +3,8 @@ from django.db import models
 from content.models.music import Music
 
 
-class MusicDetail(models.Model):
-    object = None
+class MusicAdditionalInfo(models.Model):
+    objects = None
 
     seq = models.BigAutoField(
         primary_key=True,
@@ -54,5 +54,5 @@ class MusicDetail(models.Model):
     )
 
     class Meta:
-        db_table = 't_ct_music_detail'
+        db_table = 't_ct_music_additional_info'
         ordering = ['-seq']

@@ -1,3 +1,4 @@
+import datetime
 import json
 
 import pytest
@@ -6,14 +7,16 @@ from django.forms import model_to_dict
 from django.test import TestCase
 
 from _musicbox.containers import Services
-
-from content.tests.test_artist_service import TestArtistService
+from content.tests.test_music_service import TestMusicService
+from member.models.order_product import OrderProduct
+from member.tests.test_order_service import TestOrderService
 
 
 @pytest.mark.django_db
-class TestArtistDetailService(TestCase):
-    artist_detail_service = Services.artist_detail_service()
-    test_artist_service = TestArtistService()
+class TestOrderProductService(TestCase):
+    order_product_service = Services.order_product_service()
+    test_order_service = TestOrderService()
+    test_music_service = TestMusicService()
 
     def test_crud(self):
         print('--create--')
@@ -28,7 +31,7 @@ class TestArtistDetailService(TestCase):
         self.test_select_model(params=path_param)
 
         print('--modify--')
-        self.test_modify(path_param=path_param, modify_params={'description': f'{instance["description"]}_test!'})
+        self.test_modify(path_param=path_param, modify_params={'price': 9000})
 
         print('--select_all--')
         self.test_select_all(params={})
@@ -36,18 +39,41 @@ class TestArtistDetailService(TestCase):
         print('--select_all_model--')
         self.test_select_all_model(params={})
 
+    def get_test_order_product_dict(self, paid_at):
+        m1 = self.test_music_service.test_create()
+        op1 = dict()
+        op1['music_seq'] = m1['seq']
+        op1['status'] = OrderProduct.StatusChoice.PAID.value
+        op1['price'] = m1['price']
+        op1['paid_at'] = paid_at
+
+        m2 = self.test_music_service.test_create()
+        op2 = dict()
+        op2['music_seq'] = m2['seq']
+        op2['status'] = OrderProduct.StatusChoice.PAID.value
+        op2['price'] = m2['price']
+        op2['paid_at'] = paid_at
+
+        order_products = [op1, op2]
+
+        return order_products
+
     def test_create(self, params=None):
         if not params:
-            album_instance = self.test_artist_service.test_create()
+            order_instance = self.test_order_service.test_create()
+            music_instance = self.test_music_service.test_create()
 
             params = dict()
-            params['artist_seq'] = album_instance['seq']
-            params['description'] = '아이브입니다~~~'
+            params['order_seq'] = order_instance['seq']
+            params['music_seq'] = music_instance['seq']
+            params['status'] = OrderProduct.StatusChoice.PAID.value
+            params['price'] = music_instance['price']
+            params['paid_at'] = datetime.datetime.now()
 
         print('params')
         print(params)
 
-        serializer = self.artist_detail_service.create(params)
+        serializer = self.order_product_service.create(params)
 
         print('serializer')
         print(json.dumps(serializer.data, ensure_ascii=False))
@@ -61,14 +87,14 @@ class TestArtistDetailService(TestCase):
 
         if not modify_params:
             modify_params = dict()
-            modify_params['description'] = None
+            modify_params[''] = None
 
         print('path_param')
         print(path_param)
         print('modify_params')
         print(modify_params)
 
-        serializer = self.artist_detail_service.modify(
+        serializer = self.order_product_service.modify(
             path_param=path_param,
             params=modify_params,
             partial=True)
@@ -88,7 +114,7 @@ class TestArtistDetailService(TestCase):
         print('params')
         print(params)
 
-        serializer = self.artist_detail_service.select(path_param=params)
+        serializer = self.order_product_service.select(path_param=params)
 
         print('serializer')
         print(json.dumps(serializer.data, ensure_ascii=False))
@@ -105,7 +131,7 @@ class TestArtistDetailService(TestCase):
         print('params')
         print(params)
 
-        model = self.artist_detail_service.select_model(path_param=params)
+        model = self.order_product_service.select_model(path_param=params)
 
         print('model')
         print(json.dumps(model_to_dict(model), ensure_ascii=False, cls=DjangoJSONEncoder))
@@ -116,7 +142,7 @@ class TestArtistDetailService(TestCase):
         print('params')
         print(params)
 
-        serializer = self.artist_detail_service.select_all(params=params)
+        serializer = self.order_product_service.select_all(params=params)
 
         print('serializer')
         print(json.dumps(serializer.data, ensure_ascii=False))
@@ -127,7 +153,7 @@ class TestArtistDetailService(TestCase):
         print('params')
         print(params)
 
-        models = self.artist_detail_service.select_all_model(params=params)
+        models = self.order_product_service.select_all_model(params=params)
 
         print('models')
         print(json.dumps(list(models.values()), ensure_ascii=False, cls=DjangoJSONEncoder))

@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Artist(models.Model):
-    object = None
+    objects = None
 
     seq = models.BigAutoField(
         primary_key=True,

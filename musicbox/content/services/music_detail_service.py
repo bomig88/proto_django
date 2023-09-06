@@ -1,13 +1,16 @@
-from content.filters.music_detail_filter import MusicDetailFilter
-from content.models.music_detail import MusicDetail
-from content.serializers.music_detail_serializer import MusicDetailSerializer
+from content.filters.music_additional_info_filter import MusicAdditionalInfoFilter
+from content.models.music_additional_info import MusicAdditionalInfo
+from content.serializers.music_additional_info_serializer import MusicAdditionalInfoSerializer, \
+    MusicAdditionalInfoListSerializer, MusicAdditionalInfoDetailSerializer
 from core.base.base_service import BaseService
 
 
-class MusicDetailService(BaseService):
-    queryset_list = MusicDetail.objects.all()
-    queryset_detail = MusicDetail.objects.all()
-    serializer = MusicDetailSerializer
-    filter_set_class = MusicDetailFilter
+class MusicAdditionalInfoService(BaseService):
+    queryset_list = MusicAdditionalInfo.objects.all()
+    queryset_detail = MusicAdditionalInfo.objects.all()
+    serializer = MusicAdditionalInfoSerializer
+    serializer_list = MusicAdditionalInfoListSerializer
+    serializer_detail = MusicAdditionalInfoDetailSerializer
+    filter_set_class = MusicAdditionalInfoFilter
 
 

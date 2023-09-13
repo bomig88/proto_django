@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     '_musicbox',
     'content',
     'member',
+    'order',
 ]
 
 REST_FRAMEWORK = {

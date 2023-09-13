@@ -5,23 +5,23 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from _musicbox.containers import Services
-from content.views.serializers.album_serializer import AlbumSerializer02
 from core.base.response_data import ResponseData
+from order.views.serializers.order_product_serializer import OrderProductSerializer02
 
-NM = "앨범"
-RES_LIST_NM = "albums"
-RES_DETAIL_NM = "album"
+NM = "주문상품"
+RES_LIST_NM = "order_products"
+RES_DETAIL_NM = "order_product"
 
 
-class AlbumView(APIView):
-    album_service = Services.album_service()
+class OrderProductView(APIView):
+    order_product_service = Services.order_product_service()
 
     @swagger_auto_schema(
         tags=[NM],
         operation_summary="{} 조회".format(NM),
         operation_description="{} 조회".format(NM),
-        query_serializer=AlbumSerializer02.GetParam(),
-        responses={status.HTTP_200_OK: AlbumSerializer02.GetResponse()}
+        query_serializer=OrderProductSerializer02.GetParam(),
+        responses={status.HTTP_200_OK: OrderProductSerializer02.GetResponse()}
     )
     def get(self, request: Request, **kwargs: dict) -> Response:
         """
@@ -32,19 +32,19 @@ class AlbumView(APIView):
         """
         query_params = request.query_params.dict()
 
-        serializer = self.album_service.select_all(params=query_params)
+        serializer = self.order_product_service.select_all(params=query_params)
 
         return ResponseData.response_data(RES_LIST_NM, serializer.data)
 
 
-class AlbumDetailView(APIView):
-    album_service = Services.album_service()
+class OrderProductDetailView(APIView):
+    order_product_service = Services.order_product_service()
 
     @swagger_auto_schema(
         tags=[NM],
         operation_summary="{} 상세 조회".format(NM),
         operation_description="{} 상세 조회".format(NM),
-        responses={status.HTTP_200_OK: AlbumSerializer02.DetailGetResponse()}
+        responses={status.HTTP_200_OK: OrderProductSerializer02.DetailGetResponse()}
     )
     def get(self, request: Request, **kwargs: dict) -> Response:
         """
@@ -53,7 +53,7 @@ class AlbumDetailView(APIView):
             kwargs: path 파라미터
         Returns:
         """
-        serializer = self.album_service.select(kwargs)
+        serializer = self.order_product_service.select(kwargs)
 
         return ResponseData.response_data(RES_DETAIL_NM, serializer.data)
 

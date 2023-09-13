@@ -4,8 +4,6 @@ from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.utils.translation import gettext_lazy as _
 
 from member.models.member import Member
-from member.models.order import Order
-from member.models.order_product import OrderProduct
 
 
 class MyMemberChangeForm(UserChangeForm):
@@ -47,6 +45,3 @@ class MyMemberAdmin(UserAdmin):
     search_fields = ('email', 'username')
     ordering = ('email',)
 
-
-admin.site.register(Order)
-admin.site.register(OrderProduct)

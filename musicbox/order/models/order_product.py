@@ -1,7 +1,7 @@
 from django.db import models
 
 from content.models.music import Music
-from member.models.order import Order
+from order.models.order import Order
 
 
 class OrderProduct(models.Model):

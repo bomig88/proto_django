@@ -10,6 +10,7 @@ from drf_yasg import openapi
 schema_url_patterns = [
     path('contents/', include('content.urls')),
     path('members/', include('member.urls')),
+    path('orders/', include('order.urls')),
 
 ]
 
@@ -31,6 +32,7 @@ urlpatterns = [
 
     path('contents/', include('content.urls')),
     path('members/', include('member.urls')),
+    path('orders/', include('order.urls')),
 
     # default page
     path('', lambda request: HttpResponse("Hello world"), name="index"),

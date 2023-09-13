@@ -147,12 +147,16 @@ class TestMusicService(TestCase):
 
     def test_api_select_all(self):
         response = self.api_client.get('/contents/musics')
+        print(f'response.status_code = {response.status_code}')
+        assert response.status_code == 200
+
         print('response.data')
         print(json.dumps(response.data, ensure_ascii=False))
-        assert response.status_code == 200
 
     def test_api_select(self):
         response = self.api_client.get('/contents/musics/1')
+        print(f'response.status_code = {response.status_code}')
+        assert response.status_code == 200
+
         print('response.data')
         print(json.dumps(response.data, ensure_ascii=False))
-        assert response.status_code == 200

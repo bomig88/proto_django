@@ -1,19 +1,19 @@
-from content.filters.album_filter import AlbumFilter
-from content.models.album import Album
-from content.models.music import Music
-from content.serializers.album_serializer import AlbumSerializer
+import datetime
+
 from core.base.base_service import BaseService
-from member.filters.order_filter import OrderFilter
+from order.filters.order_filter import OrderFilter
 from member.models.member import Member
-from member.models.order import Order
-from member.models.order_product import OrderProduct
-from member.serializers.order_serializer import OrderSerializer, OrderListSerializer, OrderDetailSerializer
+from order.models.order import Order
+from order.models.order_product import OrderProduct
+from order.serializers.order_serializer import OrderSerializer, OrderListSerializer, OrderDetailSerializer
 
 
 class OrderService(BaseService):
-    queryset_list = (Order.objects.select_related('member_seq')
-                     .prefetch_related(f'{OrderProduct.__name__.lower()}_set').all())
-    queryset_detail = (Order.objects.select_related('member_seq')
+    queryset_list = (Order.objects
+                     .select_related(Order.member_seq.field.name)
+                     .all())
+    queryset_detail = (Order.objects
+                       .select_related(Order.member_seq.field.name)
                        .prefetch_related(f'{OrderProduct.__name__.lower()}_set').all())
     serializer = OrderSerializer
     serializer_list = OrderListSerializer
@@ -23,14 +23,20 @@ class OrderService(BaseService):
     def add(self, params: dict):
         order_products = params.pop('order_products')
 
+        paid_at = datetime.datetime.now()
+
+        params['paid_at'] = paid_at
+        params['status'] = Order.StatusChoice.PAID.value
+
         serializer = super().create(params)
 
         order_dict = serializer.data
         order_dict['member_seq'] = Member.objects.get(seq=order_dict['member_seq'])
+
         order = Order(**order_dict)
 
         from _musicbox.containers import Services
         order_product_service = Services.order_product_service()
         order_product_service.bulk_create(order, order_products)
 
-        return serializer
+        return super().select(path_param={'seq': serializer.data.get('seq')})

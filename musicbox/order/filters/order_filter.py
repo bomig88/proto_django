@@ -2,12 +2,12 @@ import django_filters
 from django_filters.widgets import CSVWidget
 
 from core.base.filter_set import FilterSet
-from member.models.order_product import OrderProduct
+from order.models.order import Order
 
 
-class OrderProductFilter(FilterSet):
+class OrderFilter(FilterSet):
     # 일련번호
-    field = OrderProduct.seq.field
+    field = Order.seq.field
     oper_tp = FilterSet.Type.EXACT
     seq = django_filters.NumberFilter(
         field_name=field.name,
@@ -15,27 +15,18 @@ class OrderProductFilter(FilterSet):
         help_text=FilterSet.get_msg(field.help_text, oper_tp)
     )
 
-    # 주문 일련번호
-    field = OrderProduct.order_seq.field
-    oper_tp = FilterSet.Type.EXACT
-    order_seq = django_filters.NumberFilter(
-        field_name=field.name,
-        lookup_expr=oper_tp,
-        help_text=FilterSet.get_msg(field.help_text, oper_tp)
-    )
-
     # 상태
-    field = OrderProduct.status.field
+    field = Order.status.field
     oper_tp = FilterSet.Type.IN
     status = django_filters.MultipleChoiceFilter(
         field_name=field.name,
-        choices=tuple(OrderProduct.StatusChoice.choices),
+        choices=tuple(Order.StatusChoice.choices),
         widget=CSVWidget,
         help_text=FilterSet.get_msg(field.help_text, oper_tp)
     )
 
     # 등록 시작일
-    field = OrderProduct.create_at.field
+    field = Order.create_at.field
     oper_tp = FilterSet.Type.GTE
     sch_start_create_dt = django_filters.DateTimeFilter(
         field_name=field.name,
@@ -44,7 +35,7 @@ class OrderProductFilter(FilterSet):
     )
 
     # 등록 종료일
-    field = OrderProduct.create_at.field
+    field = Order.create_at.field
     oper_tp = FilterSet.Type.LTE
     sch_end_create_dt = django_filters.DateTimeFilter(
         field_name=field.name,

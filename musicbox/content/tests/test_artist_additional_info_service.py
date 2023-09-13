@@ -7,13 +7,10 @@ from django.test import TestCase
 
 from _musicbox.containers import Services
 
-from content.tests.test_artist_service import TestArtistService
-
 
 @pytest.mark.django_db
-class TestArtistDetailService(TestCase):
+class TestArtistAdditionalInfoService(TestCase):
     artist_additional_info_service = Services.artist_additional_info_service()
-    test_artist_service = TestArtistService()
 
     def test_crud(self):
         print('--create--')
@@ -38,10 +35,7 @@ class TestArtistDetailService(TestCase):
 
     def test_create(self, params=None):
         if not params:
-            album_instance = self.test_artist_service.test_create()
-
             params = dict()
-            params['artist_seq'] = album_instance['seq']
             params['description'] = '아이브입니다~~~'
 
         print('params')

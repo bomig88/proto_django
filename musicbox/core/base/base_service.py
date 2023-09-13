@@ -23,9 +23,9 @@ class BaseService:
         Returns:
             QuerySet
         """
-        if param_queryset:
+        if param_queryset is not None:
             return param_queryset
-        elif base_queryset:
+        elif base_queryset is not None:
             return base_queryset
         else:
             raise Exception('QuerySet을 지정해 주세요.')
@@ -150,7 +150,7 @@ class BaseService:
         Returns:
             필터가 적용된 QuerySet
         """
-        filter_set = self.get_filter_set(params, queryset, self)
+        filter_set = self.get_filter_set(params, queryset, self) if params else None
 
         if filter_set is None:
             return queryset

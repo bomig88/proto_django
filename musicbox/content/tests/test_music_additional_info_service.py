@@ -6,13 +6,11 @@ from django.forms import model_to_dict
 from django.test import TestCase
 
 from _musicbox.containers import Services
-from content.tests.test_music_service import TestMusicService
 
 
 @pytest.mark.django_db
-class TestMusicDetailService(TestCase):
+class TestMusicAdditionalInfoService(TestCase):
     music_additional_info_service = Services.music_additional_info_service()
-    test_music_service = TestMusicService()
 
     def test_crud(self):
         print('--create--')
@@ -38,7 +36,6 @@ class TestMusicDetailService(TestCase):
     def test_create(self, params=None):
         if not params:
             params = dict()
-            params['name'] = '아이브'
             params['composer'] = '아이브'
             params['lyricist'] = '아이브'
             params['original_artist'] = None
@@ -47,9 +44,6 @@ class TestMusicDetailService(TestCase):
             마구 넣어 주면 됩니다
             참 쉽죵
             """
-
-            instance = self.test_music_service.test_create()
-            params['music_seq'] = instance['seq']
 
         print('params')
         print(params)

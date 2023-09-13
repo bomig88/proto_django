@@ -1,6 +1,7 @@
 from django.db import models
 
 from content.models.album import Album
+from content.models.music_additional_info import MusicAdditionalInfo
 
 
 class Music(models.Model):
@@ -13,7 +14,7 @@ class Music(models.Model):
 
     name = models.CharField(
         max_length=80,
-        help_text='곡명'
+        help_text='곡 명'
     )
 
     play_time = models.IntegerField(
@@ -31,7 +32,17 @@ class Music(models.Model):
         on_delete=models.CASCADE,
         db_column='album_seq',
         db_constraint=False,
+        null=True,
         help_text='앨범 코드'
+    )
+
+    music_additional_info_seq = models.OneToOneField(
+        MusicAdditionalInfo,
+        on_delete=models.CASCADE,
+        db_column='music_additional_info_seq',
+        db_constraint=False,
+        null=True,
+        help_text='곡 추가 정보 일련번호'
     )
 
     create_at = models.DateTimeField(

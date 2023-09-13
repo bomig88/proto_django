@@ -1,10 +1,10 @@
 from dependency_injector import containers, providers
 
-from content.services.album_detail_service import AlbumAdditionalInfoService
+from content.services.album_additional_info_service import AlbumAdditionalInfoService
 from content.services.album_service import AlbumService
-from content.services.artist_detail_service import ArtistAdditionalInfoService
+from content.services.artist_additional_info_service import ArtistAdditionalInfoService
 from content.services.artist_service import ArtistService
-from content.services.music_detail_service import MusicAdditionalInfoService
+from content.services.music_additional_info_service import MusicAdditionalInfoService
 from content.services.music_service import MusicService
 from content.services.test_services import ContentTestService
 from member.services.member_service import MemberService

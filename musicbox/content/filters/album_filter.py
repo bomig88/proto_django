@@ -1,4 +1,5 @@
 import django_filters
+from django_filters.widgets import CSVWidget
 
 from content.models.album import Album
 from core.base.filter_set import FilterSet
@@ -14,12 +15,31 @@ class AlbumFilter(FilterSet):
         help_text=FilterSet.get_msg(field.help_text, oper_tp)
     )
 
+    # 아티스트 일련번호
+    field = Album.artist_seq.field
+    oper_tp = FilterSet.Type.EXACT
+    artist_seq = django_filters.NumberFilter(
+        field_name=field.name,
+        lookup_expr=oper_tp,
+        help_text=FilterSet.get_msg(field.help_text, oper_tp)
+    )
+
     # 이름
     field = Album.name.field
     oper_tp = FilterSet.Type.ICONTAINS
     name = django_filters.CharFilter(
         field_name=field.name,
         lookup_expr=oper_tp,
+        help_text=FilterSet.get_msg(field.help_text, oper_tp)
+    )
+
+    # 장르
+    field = Album.genre.field
+    oper_tp = FilterSet.Type.IN
+    genre = django_filters.MultipleChoiceFilter(
+        field_name=field.name,
+        choices=tuple(Album.GenreChoices.choices),
+        widget=CSVWidget,
         help_text=FilterSet.get_msg(field.help_text, oper_tp)
     )
 

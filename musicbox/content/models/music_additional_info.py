@@ -1,7 +1,5 @@
 from django.db import models
 
-from content.models.music import Music
-
 
 class MusicAdditionalInfo(models.Model):
     objects = None
@@ -9,15 +7,6 @@ class MusicAdditionalInfo(models.Model):
     seq = models.BigAutoField(
         primary_key=True,
         help_text='일련번호(PK)'
-    )
-
-    music_seq = models.OneToOneField(
-        Music,
-        on_delete=models.CASCADE,
-        db_column='music_seq',
-        db_constraint=False,
-        related_name='music_detail',
-        help_text='곡 일련번호'
     )
 
     lyrics = models.TextField(

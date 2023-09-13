@@ -7,12 +7,14 @@ from django.test import TestCase
 
 from _musicbox.containers import Services
 from content.tests.test_album_service import TestAlbumService
+from content.tests.test_music_additional_info_service import TestMusicAdditionalInfoService
 
 
 @pytest.mark.django_db
 class TestMusicService(TestCase):
     music_service = Services.music_service()
     test_album_service = TestAlbumService()
+    test_music_additional_info_service = TestMusicAdditionalInfoService()
 
     def test_crud(self):
         print('--create--')
@@ -35,6 +37,11 @@ class TestMusicService(TestCase):
         print('--select_all_model--')
         self.test_select_all_model(params={})
 
+    def test_api(self):
+        self.test_crud()
+        self.test_api_select_all()
+        self.test_api_select()
+
     def test_create(self, params=None):
         if not params:
             params = dict()
@@ -43,8 +50,10 @@ class TestMusicService(TestCase):
             params['price'] = 700
 
             album_instance = self.test_album_service.test_create()
-
             params['album_seq'] = album_instance['seq']
+
+            music_additional_info_seq_instance = self.test_music_additional_info_service.test_create()
+            params['music_additional_info_seq'] = music_additional_info_seq_instance['seq']
 
         print('params')
         print(params)
@@ -135,3 +144,19 @@ class TestMusicService(TestCase):
         print(json.dumps(list(models.values()), ensure_ascii=False, cls=DjangoJSONEncoder))
 
         return models
+
+    def test_api_select_all(self):
+        response = self.api_client.get('/contents/musics')
+        print(f'response.status_code = {response.status_code}')
+        assert response.status_code == 200
+
+        print('response.data')
+        print(json.dumps(response.data, ensure_ascii=False))
+
+    def test_api_select(self):
+        response = self.api_client.get('/contents/musics/1')
+        print(f'response.status_code = {response.status_code}')
+        assert response.status_code == 200
+
+        print('response.data')
+        print(json.dumps(response.data, ensure_ascii=False))

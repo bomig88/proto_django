@@ -1,8 +1,9 @@
 from django.urls import path
 
 
-from member.views.views import TestView
+from member.views.member_views import MemberView, MemberDetailView
 
 urlpatterns = [
-    path('test', TestView.as_view()),
+    path('', MemberView.as_view()),
+    path('<int:seq>', MemberDetailView.as_view()),
 ]

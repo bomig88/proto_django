@@ -7,6 +7,7 @@ from django.test import TestCase
 
 from _musicbox.containers import Services
 from content.models.album import Album
+from content.tests.test_album_additional_info_service import TestAlbumAdditionalInfoService
 from content.tests.test_artist_service import TestArtistService
 
 
@@ -14,6 +15,7 @@ from content.tests.test_artist_service import TestArtistService
 class TestAlbumService(TestCase):
     album_service = Services.album_service()
     test_artist_service = TestArtistService()
+    test_album_additional_info_service = TestAlbumAdditionalInfoService()
 
     def test_crud(self):
         print('--create--')
@@ -36,6 +38,11 @@ class TestAlbumService(TestCase):
         print('--select_all_model--')
         self.test_select_all_model(params={})
 
+    def test_api(self):
+        self.test_crud()
+        self.test_api_select_all()
+        self.test_api_select()
+
     def test_create(self, params=None):
         if not params:
             params = dict()
@@ -44,6 +51,9 @@ class TestAlbumService(TestCase):
 
             artist_instance = self.test_artist_service.test_create()
             params['artist_seq'] = artist_instance['seq']
+
+            album_additional_info_seq_instance = self.test_album_additional_info_service.test_create()
+            params['album_additional_info_seq'] = album_additional_info_seq_instance['seq']
 
         print('params')
         print(params)
@@ -134,3 +144,19 @@ class TestAlbumService(TestCase):
         print(json.dumps(list(models.values()), ensure_ascii=False, cls=DjangoJSONEncoder))
 
         return models
+
+    def test_api_select_all(self):
+        response = self.api_client.get('/contents/albums')
+        print(f'response.status_code = {response.status_code}')
+        assert response.status_code == 200
+
+        print('response.data')
+        print(json.dumps(response.data, ensure_ascii=False))
+
+    def test_api_select(self):
+        response = self.api_client.get('/contents/albums/1')
+        print(f'response.status_code = {response.status_code}')
+        assert response.status_code == 200
+
+        print('response.data')
+        print(json.dumps(response.data, ensure_ascii=False))

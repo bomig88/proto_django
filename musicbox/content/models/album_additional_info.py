@@ -1,7 +1,5 @@
 from django.db import models
 
-from content.models.album import Album
-
 
 class AlbumAdditionalInfo(models.Model):
     objects = None
@@ -9,15 +7,6 @@ class AlbumAdditionalInfo(models.Model):
     seq = models.BigAutoField(
         primary_key=True,
         help_text='일련번호(PK)'
-    )
-
-    album_seq = models.OneToOneField(
-        Album,
-        on_delete=models.CASCADE,
-        db_column='album_seq',
-        db_constraint=False,
-        related_name='album_detail',
-        help_text='앨범 일련번호'
     )
 
     description = models.TextField(

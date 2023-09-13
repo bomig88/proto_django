@@ -1,5 +1,6 @@
 from django.db import models
 
+from content.models.album_additional_info import AlbumAdditionalInfo
 from content.models.artist import Artist
 
 
@@ -47,8 +48,17 @@ class Album(models.Model):
         on_delete=models.CASCADE,
         db_column='artist_seq',
         db_constraint=False,
-        related_name='artist',
+        null=True,
         help_text='아티스트 일련번호'
+    )
+
+    album_additional_info_seq = models.OneToOneField(
+        AlbumAdditionalInfo,
+        on_delete=models.CASCADE,
+        db_column='album_additional_info_seq',
+        db_constraint=False,
+        null=True,
+        help_text='앨범 추가 정보 일련번호'
     )
 
     create_at = models.DateTimeField(

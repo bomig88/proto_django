@@ -6,13 +6,11 @@ from django.forms import model_to_dict
 from django.test import TestCase
 
 from _musicbox.containers import Services
-from content.tests.test_album_service import TestAlbumService
 
 
 @pytest.mark.django_db
-class TestAlbumDetailService(TestCase):
+class TestAlbumAdditionalInfoService(TestCase):
     album_additional_info_service = Services.album_additional_info_service()
-    test_album_service = TestAlbumService()
 
     def test_crud(self):
         print('--create--')
@@ -39,9 +37,6 @@ class TestAlbumDetailService(TestCase):
         if not params:
             params = dict()
             params['description'] = '아이브의 앨범입니다.'
-
-            instance = self.test_album_service.test_create()
-            params['album_seq'] = instance['seq']
 
         print('params')
         print(params)

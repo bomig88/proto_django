@@ -14,6 +14,15 @@ class MusicFilter(FilterSet):
         help_text=FilterSet.get_msg(field.help_text, oper_tp)
     )
 
+    # 앨범 일련번호
+    field = Music.album_seq.field
+    oper_tp = FilterSet.Type.EXACT
+    album_seq = django_filters.NumberFilter(
+        field_name=field.name,
+        lookup_expr=oper_tp,
+        help_text=FilterSet.get_msg(field.help_text, oper_tp)
+    )
+
     # 이름
     field = Music.name.field
     oper_tp = FilterSet.Type.ICONTAINS

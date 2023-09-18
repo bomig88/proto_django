@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 
 from _musicbox.containers import Services
 from core.base.response_data import ResponseData
+from core.base.swagger_response_serializer import ResponseSerializer
 from member.views.serializers.member_serializer import MemberSerializer02
 
 NM = "회원"
@@ -37,6 +38,22 @@ class MemberView(APIView):
         return ResponseData.response_data(RES_LIST_NM, serializer.data)
 
 
+class MemberRegisterView(APIView):
+    member_service = Services.member_service()
+
+    @swagger_auto_schema(
+        tags=[NM],
+        operation_summary="{} 등록".format(NM),
+        operation_description="{} 등록".format(NM),
+        request_body=MemberSerializer02.RegisterPostRequest(),
+        responses={status.HTTP_200_OK: MemberSerializer02.RegisterPostResponse()}
+    )
+    def post(self, request: Request):
+        serializer = self.member_service.register(request.data)
+
+        return ResponseData.response_data(RES_DETAIL_NM, serializer.data)
+
+
 class MemberDetailView(APIView):
     member_service = Services.member_service()
 
@@ -57,3 +74,18 @@ class MemberDetailView(APIView):
 
         return ResponseData.response_data(RES_DETAIL_NM, serializer.data)
 
+
+class MemberLeaveView(APIView):
+    member_service = Services.member_service()
+
+    @swagger_auto_schema(
+        tags=[NM],
+        operation_summary="{} 탈퇴".format(NM),
+        operation_description="{} 탈퇴".format(NM),
+        request_body=MemberSerializer02.LeavePostRequest(),
+        responses={status.HTTP_200_OK: ResponseSerializer()}
+    )
+    def post(self, request: Request, **kwargs: dict) -> Response:
+        self.member_service.leave(kwargs, request.data)
+
+        return Response(ResponseData.response(True))

@@ -4,6 +4,9 @@ from content.models.album import Album
 
 
 class AlbumSimplificationSerializer01:
+    """
+    Swagger 앨범 간소화 Serializer
+    """
     class Default(serializers.ModelSerializer):
 
         class Meta:

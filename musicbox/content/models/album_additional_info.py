@@ -2,6 +2,9 @@ from django.db import models
 
 
 class AlbumAdditionalInfo(models.Model):
+    """
+    앨범 추가 정보 모델
+    """
     objects = None
 
     seq = models.BigAutoField(

@@ -10,6 +10,9 @@ from order.views.serializers.order_product_serializer import OrderProductSeriali
 
 
 class OrderSerializer01:
+    """
+    Swagger 주문 Serializer
+    """
     class Default(serializers.ModelSerializer):
         class Meta:
             model = Order
@@ -94,6 +97,9 @@ class OrderSerializer01:
 
 
 class OrderSerializer02:
+    """
+    Swagger 주문 Serializer
+    """
     class GetParam(serializers.Serializer):
         seq = OrderSerializer01.Field.seq(False)
         member_seq = OrderSerializer01.Field.member_seq(False)

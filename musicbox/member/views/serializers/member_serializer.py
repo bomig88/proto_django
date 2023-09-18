@@ -6,6 +6,9 @@ from member.models.member import Member
 
 
 class MemberSerializer01:
+    """
+    Swagger 회원 Serializer
+    """
     class Default(serializers.ModelSerializer):
         class Meta:
             model = Member
@@ -42,12 +45,37 @@ class MemberSerializer01:
             return username
 
         @staticmethod
+        def password(required=True):
+            password = serializers.CharField(
+                required=required,
+                help_text=Member.password.field.help_text
+            )
+            return password
+
+        @staticmethod
         def email(required=True):
             email = serializers.CharField(
                 required=required,
                 help_text=Member.email.field.help_text
             )
             return email
+
+        @staticmethod
+        def gender(required=True):
+            gender = serializers.ChoiceField(
+                choices=tuple(Member.GenderChoice.choices),
+                required=required,
+                help_text=f'{Member.gender.field.help_text} \ {str(Member.GenderChoice.choices)}'
+            )
+            return gender
+
+        @staticmethod
+        def birthday(required=True):
+            birthday = serializers.CharField(
+                required=required,
+                help_text=Member.birthday.field.help_text
+            )
+            return birthday
 
         @staticmethod
         def sch_start_create_dt(required=True):
@@ -76,6 +104,9 @@ class MemberSerializer01:
 
 
 class MemberSerializer02:
+    """
+    Swagger 회원 Serializer
+    """
     class GetParam(serializers.Serializer):
         seq = MemberSerializer01.Field.seq(False)
         username = MemberSerializer01.Field.username(False)
@@ -108,6 +139,37 @@ class MemberSerializer02:
             required=False,
             help_text="응답 데이터"
         )
+
+        class Meta:
+            ref_name = __qualname__
+
+    class RegisterPostRequest(serializers.Serializer):
+        username = MemberSerializer01.Field.username(required=True)
+        password = MemberSerializer01.Field.password(required=True)
+        email = MemberSerializer01.Field.email(required=True)
+        gender = MemberSerializer01.Field.gender(required=True)
+        birthday = MemberSerializer01.Field.birthday(required=True)
+
+        class Meta:
+            ref_name = __qualname__
+
+    class RegisterPostResponse(ResponseSerializer):
+
+        class RegisterPostResponseData(serializers.Serializer):
+            member = MemberSerializer01.Detail(help_text="등록된 회원 정보")
+
+            class Meta:
+                ref_name = __qualname__
+
+        data = RegisterPostResponseData(
+            required=False,
+            help_text="응답 데이터"
+        )
+
+        class Meta:
+            ref_name = __qualname__
+
+    class LeavePostRequest(serializers.Serializer):
 
         class Meta:
             ref_name = __qualname__

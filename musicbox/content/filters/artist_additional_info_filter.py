@@ -5,6 +5,9 @@ from core.base.filter_set import FilterSet
 
 
 class ArtistAdditionalInfoFilter(FilterSet):
+    """
+    아티스트 추가 정보 필터
+    """
     # 일련번호
     field = ArtistAdditionalInfo.seq.field
     oper_tp = FilterSet.Type.EXACT

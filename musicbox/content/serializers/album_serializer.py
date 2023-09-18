@@ -1,22 +1,25 @@
 from rest_framework import serializers
 
 from content.models.album import Album
-from content.models.album_additional_info import AlbumAdditionalInfo
 from content.models.music import Music
-from content.serializers.album_additional_info_serializer import AlbumAdditionalInfoDetailSerializer, \
-    AlbumAdditionalInfoSerializer
+from content.serializers.album_additional_info_serializer import AlbumAdditionalInfoSerializer
 from content.serializers.artist_serializer import ArtistSerializer
-from content.serializers.music_serializer import MusicSerializer
 from content.serializers.simplification.music_simplification_serializer import MusicSimplificationSerializer
 
 
 class AlbumSerializer(serializers.ModelSerializer):
+    """
+    앨범 Serializer
+    """
     class Meta:
         model = Album
         fields = '__all__'
 
 
 class AlbumListSerializer(serializers.ModelSerializer):
+    """
+    앨범 목록 Serializer
+    """
     artist = ArtistSerializer(
         many=False,
         read_only=True,
@@ -29,6 +32,9 @@ class AlbumListSerializer(serializers.ModelSerializer):
 
 
 class AlbumDetailSerializer(serializers.ModelSerializer):
+    """
+    앨범 상세 Serializer
+    """
     album_additional_info = AlbumAdditionalInfoSerializer(
         many=False,
         source=Album.album_additional_info_seq.field.name

@@ -11,6 +11,9 @@ from member.models.member import Member
 
 @pytest.mark.django_db
 class TestMemberService(TestCase):
+    """
+    회원 서비스 테스트 코드
+    """
     member_service = Services.member_service()
 
     def test_crud(self):
@@ -34,10 +37,56 @@ class TestMemberService(TestCase):
         print('--select_all_model--')
         self.test_select_all_model(params={})
 
-    def test_api(self):
-        self.test_crud()
-        self.test_api_select_all()
-        self.test_api_select()
+    def test_cycle(self):
+        print('--create--')
+        instance = self.test_register()
+
+        path_param = {'seq': instance['seq']}
+
+        print('--select--')
+        self.test_select(params=path_param)
+
+        print('--leave--')
+        self.test_leave(path_param)
+
+    @staticmethod
+    def get_register_sample():
+        params = dict()
+        params['username'] = 'regit1'
+        params['password'] = 'test1234'
+        params['birthday'] = '20000101'
+        params['gender'] = Member.GenderChoice.F.value
+        params['email'] = 'bomig88@gmail.com'
+        return params
+
+    def test_register(self, params=None):
+        if not params:
+            params = TestMemberService.get_register_sample()
+
+        print('params')
+        print(params)
+
+        serializer = self.member_service.register(params)
+
+        print('serializer')
+        print(json.dumps(serializer.data, ensure_ascii=False))
+
+        return serializer.data
+
+    def test_leave(self, path_param=None):
+        if not path_param:
+            instance = self.test_create()
+
+            path_param = dict()
+            path_param['seq'] = instance['seq']
+
+        print('path_param')
+        print(path_param)
+
+        serializer = self.member_service.leave(path_param=path_param)
+
+        print('serializer')
+        print(json.dumps(serializer.data, ensure_ascii=False))
 
     def test_create(self, params=None):
         if not params:
@@ -137,19 +186,3 @@ class TestMemberService(TestCase):
         print(json.dumps(list(models.values()), ensure_ascii=False, cls=DjangoJSONEncoder))
 
         return models
-
-    def test_api_select_all(self):
-        response = self.api_client.get('/members/')
-        print(f'response.status_code = {response.status_code}')
-        assert response.status_code == 200
-
-        print('response.data')
-        print(json.dumps(response.data, ensure_ascii=False))
-
-    def test_api_select(self):
-        response = self.api_client.get('/members/1')
-        print(f'response.status_code = {response.status_code}')
-        assert response.status_code == 200
-
-        print('response.data')
-        print(json.dumps(response.data, ensure_ascii=False))

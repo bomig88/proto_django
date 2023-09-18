@@ -6,6 +6,9 @@ from core.base.filter_set import FilterSet
 
 
 class AlbumFilter(FilterSet):
+    """
+    앨범 필터
+    """
     # 일련번호
     field = Album.seq.field
     oper_tp = FilterSet.Type.EXACT

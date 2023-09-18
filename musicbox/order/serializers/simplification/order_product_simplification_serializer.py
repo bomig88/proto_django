@@ -5,6 +5,9 @@ from order.models.order_product import OrderProduct
 
 
 class OrderProductSimplificationSerializer(serializers.ModelSerializer):
+    """
+    주문 상품 간소화 Serializer
+    """
     class Meta:
         model = OrderProduct
         fields = [

@@ -6,6 +6,9 @@ from core.base.swagger_response_serializer import ResponseSerializer
 
 
 class ArtistAdditionalInfoSerializer01:
+    """
+    Swagger 아티스트 추가 정보 Serializer
+    """
     class Default(serializers.ModelSerializer):
 
         class Meta:
@@ -61,6 +64,9 @@ class ArtistAdditionalInfoSerializer01:
 
 
 class ArtistAdditionalInfoSerializer02:
+    """
+    Swagger 아티스트 추가 정보 Serializer
+    """
     class GetParam(serializers.Serializer):
         seq = ArtistAdditionalInfoSerializer01.Field.seq(False)
         sch_start_create_dt = ArtistAdditionalInfoSerializer01.Field.sch_start_create_dt(False)

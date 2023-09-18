@@ -6,6 +6,9 @@ from core.base.base_service import BaseService
 
 
 class ArtistAdditionalInfoService(BaseService):
+    """
+    아티스트 추가 정보 서비스
+    """
     queryset_list = ArtistAdditionalInfo.objects.all()
     queryset_detail = ArtistAdditionalInfo.objects.all()
     serializer = ArtistAdditionalInfoSerializer

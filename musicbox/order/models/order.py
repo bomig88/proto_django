@@ -4,6 +4,9 @@ from member.models.member import Member
 
 
 class Order(models.Model):
+    """
+    주문 모델
+    """
     objects = None
 
     class StatusChoice(models.TextChoices):

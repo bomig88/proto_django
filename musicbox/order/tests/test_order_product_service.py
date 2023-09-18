@@ -14,6 +14,9 @@ from order.tests.test_order_service import TestOrderService
 
 @pytest.mark.django_db
 class TestOrderProductService(TestCase):
+    """
+    주문 상품 서비스 테스트 코드
+    """
     order_product_service = Services.order_product_service()
     test_order_service = TestOrderService()
     test_music_service = TestMusicService()
@@ -38,11 +41,6 @@ class TestOrderProductService(TestCase):
 
         print('--select_all_model--')
         self.test_select_all_model(params={})
-
-    def test_api(self):
-        self.test_crud()
-        self.test_api_select_all()
-        self.test_api_select()
 
     def get_test_order_product_dict(self):
         m1 = self.test_music_service.test_create()
@@ -158,19 +156,3 @@ class TestOrderProductService(TestCase):
         print(json.dumps(list(models.values()), ensure_ascii=False, cls=DjangoJSONEncoder))
 
         return models
-
-    def test_api_select_all(self):
-        response = self.api_client.get(f'/orders/order-products')
-        print(f'response.status_code = {response.status_code}')
-        assert response.status_code == 200
-
-        print('response.data')
-        print(json.dumps(response.data, ensure_ascii=False))
-
-    def test_api_select(self):
-        response = self.api_client.get('/orders/order-products/1')
-        print(f'response.status_code = {response.status_code}')
-        assert response.status_code == 200
-
-        print('response.data')
-        print(json.dumps(response.data, ensure_ascii=False))

@@ -6,6 +6,9 @@ from order.models.order import Order
 
 
 class OrderFilter(FilterSet):
+    """
+    주문 필터
+    """
     # 일련번호
     field = Order.seq.field
     oper_tp = FilterSet.Type.EXACT

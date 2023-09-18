@@ -5,6 +5,9 @@ from order.models.order import Order
 
 
 class OrderProduct(models.Model):
+    """
+    주문 상품 모델
+    """
     objects = None
 
     class StatusChoice(models.TextChoices):

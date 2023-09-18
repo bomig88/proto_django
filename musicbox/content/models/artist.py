@@ -4,6 +4,9 @@ from content.models.artist_additional_info import ArtistAdditionalInfo
 
 
 class Artist(models.Model):
+    """
+    아티스트 모델
+    """
     objects = None
 
     seq = models.BigAutoField(

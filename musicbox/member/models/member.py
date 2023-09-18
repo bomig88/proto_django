@@ -10,6 +10,9 @@ from core.fields.encrypted_char_field import Sha256EncryptedCharField
 
 
 class Member(AbstractBaseUser, PermissionsMixin):
+    """
+    회원 모델
+    """
     class GenderChoice(models.TextChoices):
         M = 'M', '남성'
         F = 'F', '여성'
@@ -93,7 +96,8 @@ class Member(AbstractBaseUser, PermissionsMixin):
 
         return is_use_valid
 
-    def birthday_validation(self, params: dict):
+    @staticmethod
+    def birthday_validation(params: dict):
         """
         생년월일 유효성 체크합니다.
         Args:
@@ -102,7 +106,7 @@ class Member(AbstractBaseUser, PermissionsMixin):
         Raises: CustomValidationException
         """
         if params.get('birthday', None):
-            if not DatetimeUtil.validate_date_str(params['birthday'], self.BIRTHDAY_FORMAT):
+            if not DatetimeUtil.validate_date_str(params['birthday'], Member.BIRTHDAY_FORMAT):
                 raise Exception(f'유효하지 않은 생년월일입니다.')
 
     @classmethod

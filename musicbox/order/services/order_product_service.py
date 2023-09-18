@@ -7,6 +7,9 @@ from order.serializers.order_product_serializer import OrderProductSerializer, O
 
 
 class OrderProductService(BaseService):
+    """
+    주문 상품 서비스
+    """
     queryset_list = (OrderProduct.objects
                      .all())
     queryset_detail = (OrderProduct.objects
@@ -18,6 +21,14 @@ class OrderProductService(BaseService):
     filter_set_class = OrderProductFilter
 
     def bulk_create(self, order, order_products):
+        """
+        주문 상품 무더기 생성
+        Args:
+            order: 주문 상품이 속한 주문 모델
+            order_products: 주문 상품 목록
+        Returns:
+            생성된 주문 상품 목록
+        """
         for op in order_products:
             op['order_seq'] = order
             music_instance = Music.objects.get(seq=op['music_seq'])

@@ -6,18 +6,27 @@ from order.serializers.simplification.order_simplification_serializer import Ord
 
 
 class OrderProductSerializer(serializers.ModelSerializer):
+    """
+    주문 상품 Serializer
+    """
     class Meta:
         model = OrderProduct
         fields = '__all__'
 
 
 class OrderProductListSerializer(serializers.ModelSerializer):
+    """
+    주문 상품 목록 Serializer
+    """
     class Meta:
         model = OrderProduct
         fields = '__all__'
 
 
 class OrderProductDetailSerializer(serializers.ModelSerializer):
+    """
+    주문 상품 상세 Serializer
+    """
     music = MusicSerializer(
         many=False,
         read_only=True,

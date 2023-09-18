@@ -1,10 +1,12 @@
 from rest_framework import serializers
 
-from content.models.album import Album
 from content.models.music import Music
 
 
 class MusicSimplificationSerializer01:
+    """
+    Swagger 곡 간소화 Serializer
+    """
     class Default(serializers.ModelSerializer):
 
         class Meta:

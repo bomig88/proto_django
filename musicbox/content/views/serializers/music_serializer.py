@@ -8,6 +8,9 @@ from core.base.swagger_response_serializer import ResponseSerializer
 
 
 class MusicSerializer01:
+    """
+    Swagger 곡 Serializer
+    """
     class Default(serializers.ModelSerializer):
 
         class Meta:
@@ -84,6 +87,9 @@ class MusicSerializer01:
 
 
 class MusicSerializer02:
+    """
+    Swagger 곡 Serializer
+    """
     class GetParam(serializers.Serializer):
         seq = MusicSerializer01.Field.seq(False)
         album_seq = MusicSerializer01.Field.album_seq(False)

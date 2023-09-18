@@ -5,6 +5,9 @@ from content.models.artist import Artist
 
 
 class ArtistSimplificationSerializer(serializers.ModelSerializer):
+    """
+    아티스트 간소화 Serializer
+    """
     class Default(serializers.ModelSerializer):
 
         class Meta:

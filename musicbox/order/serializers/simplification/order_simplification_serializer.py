@@ -4,6 +4,9 @@ from order.models.order import Order
 
 
 class OrderSimplificationSerializer(serializers.ModelSerializer):
+    """
+    주문 간소화 Serializer
+    """
     class Meta:
         model = Order
         fields = [

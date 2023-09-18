@@ -5,6 +5,9 @@ from content.models.music_additional_info import MusicAdditionalInfo
 
 
 class Music(models.Model):
+    """
+    곡 모델
+    """
     objects = None
 
     seq = models.BigAutoField(

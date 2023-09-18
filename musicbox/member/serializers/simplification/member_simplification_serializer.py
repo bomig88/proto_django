@@ -4,6 +4,9 @@ from member.models.member import Member
 
 
 class MemberSimplificationSerializer(serializers.ModelSerializer):
+    """
+    회원 간소화 Serializer
+    """
     class Meta:
         model = Member
         fields = [

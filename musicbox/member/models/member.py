@@ -1,10 +1,10 @@
 from django.conf import settings
 from django.db import models
-from django.contrib.auth.models import UserManager
 from django.contrib.auth.validators import UnicodeUsernameValidator
 
 from core.auth.base_user import AbstractBaseUser
-from core.auth.permission import PermissionsMixin
+from core.auth.base_user_manager import BaseUserManager
+from core.auth.permissions_mixin import PermissionsMixin
 from core.utils.datetime_util import DatetimeUtil
 from core.fields.encrypted_char_field import Sha256EncryptedCharField
 
@@ -29,7 +29,7 @@ class Member(AbstractBaseUser, PermissionsMixin):
     # 인증 관련 사용자 사용 여부 필드
     ISACTIVE_FIELD = "status"
 
-    objects = UserManager()
+    objects = BaseUserManager()
 
     seq = models.BigAutoField(
         primary_key=True,
@@ -43,6 +43,7 @@ class Member(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(
         max_length=50,
         validators=[UnicodeUsernameValidator()],
+        unique=True,
         help_text='이름'
     )
     email = models.EmailField(

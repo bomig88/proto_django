@@ -19,3 +19,4 @@ class OrderSimplificationSerializer01:
                 Order.create_at.field.name,
                 Order.update_at.field.name,
             ]
+            ref_name = __qualname__

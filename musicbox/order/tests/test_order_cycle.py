@@ -22,10 +22,7 @@ class TestOrderCycle(TestCase):
 
     def test_add(self, params=None):
         if not params:
-            member_instance = self.test_member_service.test_create()
-
             params = dict()
-            params['member_seq'] = member_instance['seq']
             params['order_products'] = self.test_order_product_service.get_test_order_product_dict()
 
         print('params')

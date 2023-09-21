@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from _musicbox.containers import Services
+from core.auth.base_permissions import AllowAny
 from core.base.response_data import ResponseData
 from core.base.swagger_response_serializer import ResponseSerializer
 from member.views.serializers.member_serializer import MemberSerializer02
@@ -39,6 +40,7 @@ class MemberView(APIView):
 
 
 class MemberRegisterView(APIView):
+    permission_classes = [AllowAny]
     member_service = Services.member_service()
 
     @swagger_auto_schema(

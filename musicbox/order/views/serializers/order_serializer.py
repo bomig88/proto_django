@@ -138,8 +138,6 @@ class OrderSerializer02:
             ref_name = __qualname__
 
     class PostRequest(serializers.Serializer):
-        member_seq = OrderSerializer01.Field.member_seq(required=True)
-
         order_products = OrderProductSerializer02.PostRequest(many=True)
 
         class Meta:

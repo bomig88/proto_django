@@ -45,7 +45,7 @@ class OrderView(APIView):
     )
     def post(self, request: Request):
         request_data = request.data
-        # request_data['member_seq'] = request.user.pk
+        request_data['member_seq'] = request.user.pk
 
         serializer = self.order_service.add(request_data)
 

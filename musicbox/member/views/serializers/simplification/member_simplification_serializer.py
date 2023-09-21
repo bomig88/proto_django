@@ -18,3 +18,4 @@ class MemberSimplificationSerializer01:
                 Member.create_at.field.name,
                 Member.update_at.field.name,
             ]
+            ref_name = __qualname__

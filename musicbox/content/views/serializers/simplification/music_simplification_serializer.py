@@ -18,3 +18,4 @@ class MusicSimplificationSerializer01:
                 Music.price.field.name,
                 Music.create_at.field.name,
             ]
+            ref_name = __qualname__

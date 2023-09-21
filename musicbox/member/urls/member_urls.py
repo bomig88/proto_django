@@ -7,5 +7,5 @@ urlpatterns = [
     path('', MemberView.as_view()),
     path('<int:seq>', MemberDetailView.as_view()),
     path('<int:seq>/leave', MemberLeaveView.as_view()),
-    path('register', MemberRegisterView.as_view())
+    path('register', MemberRegisterView.as_view()),
 ]

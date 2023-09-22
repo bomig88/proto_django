@@ -18,6 +18,15 @@ class OrderProductFilter(FilterSet):
         help_text=FilterSet.get_msg(field.help_text, oper_tp)
     )
 
+    # 일련번호
+    field = OrderProduct.seq.field
+    oper_tp = FilterSet.Type.IN
+    seqs = django_filters.BaseInFilter(
+        field_name=field.name,
+        lookup_expr=oper_tp,
+        help_text=FilterSet.get_msg(field.help_text, oper_tp)
+    )
+
     # 주문 일련번호
     field = OrderProduct.order_seq.field
     oper_tp = FilterSet.Type.EXACT

@@ -8,10 +8,10 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
 schema_url_patterns = [
-    path('auth/', include('member.urls.auth_urls')),
-    path('members/', include('member.urls.member_urls')),
-    path('contents/', include('content.urls.content_urls')),
-    path('orders/', include('order.urls.order_urls')),
+    path('auth', include('member.urls.auth_urls')),
+    path('members', include('member.urls.member_urls')),
+    path('contents', include('content.urls.content_urls')),
+    path('orders', include('order.urls.order_urls')),
 
 ]
 
@@ -31,10 +31,10 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('auth/', include('member.urls.auth_urls')),
-    path('members/', include('member.urls.member_urls')),
-    path('contents/', include('content.urls.content_urls')),
-    path('orders/', include('order.urls.order_urls')),
+    path('auth', include('member.urls.auth_urls')),
+    path('members', include('member.urls.member_urls')),
+    path('contents', include('content.urls.content_urls')),
+    path('orders', include('order.urls.order_urls')),
 
     # default page
     path('', lambda request: HttpResponse("Hello world"), name="index"),

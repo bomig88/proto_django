@@ -47,6 +47,7 @@ class BaseService:
         else:
             raise Exception('Serializer를 지정해 주세요.')
 
+    @transaction.atomic
     def create(self, params: dict):
         """ 모델 생성
         Args:
@@ -60,6 +61,7 @@ class BaseService:
 
         return serializer
 
+    @transaction.atomic
     def modify(self, path_param: dict, params: dict = None, partial=False):
         """ 모델 수정
         Args:

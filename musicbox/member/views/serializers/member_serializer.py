@@ -78,6 +78,22 @@ class MemberSerializer01:
             return birthday
 
         @staticmethod
+        def is_staff(required=True):
+            is_staff = serializers.BooleanField(
+                required=required,
+                help_text=Member.is_staff.field.help_text
+            )
+            return is_staff
+
+        @staticmethod
+        def is_superuser(required=True):
+            is_superuser = serializers.BooleanField(
+                required=required,
+                help_text=Member.is_superuser.field.help_text
+            )
+            return is_superuser
+
+        @staticmethod
         def sch_start_create_dt(required=True):
             sch_start_create_dt = serializers.DateTimeField(
                 required=required,
@@ -149,6 +165,9 @@ class MemberSerializer02:
         email = MemberSerializer01.Field.email(required=True)
         gender = MemberSerializer01.Field.gender(required=True)
         birthday = MemberSerializer01.Field.birthday(required=True)
+
+        is_staff = MemberSerializer01.Field.is_staff(required=True)
+        is_superuser = MemberSerializer01.Field.is_superuser(required=True)
 
         class Meta:
             ref_name = __qualname__

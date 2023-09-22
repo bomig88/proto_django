@@ -1,4 +1,6 @@
 from django.contrib.auth.base_user import BaseUserManager
+from core.fields.encrypted_char_field import CryptoSha256
+from django.conf import settings
 
 
 class BaseUserManager(BaseUserManager):
@@ -9,7 +11,7 @@ class BaseUserManager(BaseUserManager):
             raise TypeError('Users must have a username.')
 
         user = self.model(username=username)
-        user.set_password(password)
+        user.password = password
         user.status = 'join'
         user.save()
 

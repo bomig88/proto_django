@@ -161,3 +161,28 @@ class OrderSerializer02:
 
         class Meta:
             ref_name = __qualname__
+
+    class RefundPostRequest(serializers.Serializer):
+        order_product_seqs = serializers.CharField(help_text='환불할 주문 상품들 일련번호, ","구분자')
+
+        class Meta:
+            ref_name = __qualname__
+
+    class RefundPostResponse(ResponseSerializer):
+
+        class RefundPostResponseData(serializers.Serializer):
+            """
+            주문 등록 응답 Serializer
+            """
+            order = OrderSerializer01.Detail(help_text="환불 처리된 주문 정보")
+
+            class Meta:
+                ref_name = __qualname__
+
+        data = RefundPostResponseData(
+            required=False,
+            help_text="응답 데이터"
+        )
+
+        class Meta:
+            ref_name = __qualname__

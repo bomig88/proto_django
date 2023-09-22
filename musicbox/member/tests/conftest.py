@@ -4,7 +4,7 @@ from rest_framework.test import APIClient
 from member.models.member import Member
 
 
-@pytest.fixture(scope="class", autouse=True)
+@pytest.fixture(scope="function", autouse=True)
 def api_client(request):
     params = dict()
     params['username'] = 'regit1'
@@ -14,7 +14,8 @@ def api_client(request):
     params['email'] = 'bomig@gmail.com'
 
     from _musicbox.containers import Services
-    Services.member_service().register(params)
+    member = Services.member_service().register(params)
+    request.cls.member_seq = member.data['seq']
 
     login_param = {'username': params['username'], 'password': params['password']}
 

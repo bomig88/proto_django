@@ -51,7 +51,11 @@ class TestOrderProductService(TestCase):
         op2 = dict()
         op2['music_seq'] = m2['seq']
 
-        order_products = [op1, op2]
+        m3 = self.test_music_service.test_create()
+        op3 = dict()
+        op3['music_seq'] = m3['seq']
+
+        order_products = [op1, op2, op3]
 
         return order_products
 

@@ -72,3 +72,22 @@ class OrderDetailView(APIView):
 
         return ResponseData.response_data(RES_DETAIL_NM, serializer.data)
 
+
+class OrderRefundView(APIView):
+    order_service = Services.order_service()
+
+    @swagger_auto_schema(
+        tags=[NM],
+        operation_summary="{} 환불".format(NM),
+        operation_description="{} 환불".format(NM),
+        request_body=OrderSerializer02.RefundPostRequest(),
+        responses={status.HTTP_200_OK: OrderSerializer02.RefundPostResponse()}
+    )
+    def post(self, request: Request, **kwargs: dict):
+        request_data = request.data
+        request_data.update(kwargs)
+        request_data['member_seq'] = request.user.pk
+
+        serializer = self.order_service.refund(request_data)
+
+        return ResponseData.response_data(RES_DETAIL_NM, serializer.data)

@@ -88,5 +88,5 @@ class OrderProduct(models.Model):
         return order_product
 
     class Meta:
-        db_table = 't_usr_order_product'
+        db_table = 't_od_order_product'
         ordering = ['-seq']

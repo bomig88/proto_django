@@ -5,6 +5,9 @@ from member.models.member import Member
 
 
 class MemberFilter(FilterSet):
+    """
+    회원 필터
+    """
     # 일련번호
     field = Member.seq.field
     oper_tp = FilterSet.Type.EXACT

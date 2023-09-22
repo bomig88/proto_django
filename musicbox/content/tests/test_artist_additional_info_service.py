@@ -10,6 +10,9 @@ from _musicbox.containers import Services
 
 @pytest.mark.django_db
 class TestArtistAdditionalInfoService(TestCase):
+    """
+    아티스트 추가 정보 테스트 코드
+    """
     artist_additional_info_service = Services.artist_additional_info_service()
 
     def test_crud(self):

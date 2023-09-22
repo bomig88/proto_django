@@ -31,8 +31,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'drf_yasg',
     '_musicbox',
-    'content',
     'member',
+    'content',
     'order',
 ]
 
@@ -140,25 +140,26 @@ STATIC_ROOT = os.path.join(Path(__file__).resolve().parent.parent.parent, 'stati
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_HASHING_ALGORITHM = 'sha256'
 
 # 인증 테이블
-# AUTH_USER_MODEL = 'member.Member'
+AUTH_USER_MODEL = 'member.Member'
 
 # 인증 방식 정의
-# AUTHENTICATION_BACKENDS = [
-#     'view.ws.admin.auth.manager_post_handle_authentication.ManagerPostHandleAuthentication'
-# ]
-#
+AUTHENTICATION_BACKENDS = [
+    'core.auth.base_post_handle_authentication.BasePostHandleAuthentication',
+]
+
 # # 토큰 인증 방식 정의
-# REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'] = (
-#     'view.ws.admin.auth.manager_pre_handle_authentication.ManagerGenericPreHandleAuthentication',
-# )
-#
+REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'] = (
+    'core.auth.base_pre_handle_authentication.BasePreHandleAuthentication',
+)
+
 # # 접근 권한 인증 방식 정의
-# REST_FRAMEWORK['DEFAULT_PERMISSION_CLASSES'] = (
-#     # 사용자 인증 테스트 시 IsAuthenticated 주석을 해제 하고 AllowAny 를 주석 처리해 주세요
-#     # 'rest_framework.permissions.AllowAny',
-#     # 인증 커스텀 테스트 중
-#     'view.ws.admin.auth.manager_permissions.IsAuthenticated',
-#     # 'view.ws.admin.auth.manager_permissions.AllowAny',
-# )
+REST_FRAMEWORK['DEFAULT_PERMISSION_CLASSES'] = (
+    # 사용자 인증 테스트 시 IsAuthenticated 주석을 해제 하고 AllowAny 를 주석 처리해 주세요
+    # 'rest_framework.permissions.AllowAny',
+    # 인증 커스텀 테스트 중
+    'core.auth.base_permissions.IsAuthenticated',
+    # 'core.auth.base_permissions.AllowAny',
+)

@@ -8,9 +8,10 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
 schema_url_patterns = [
-    path('contents/', include('content.urls')),
-    path('members/', include('member.urls')),
-    path('orders/', include('order.urls')),
+    path('auth', include('member.urls.auth_urls')),
+    path('members', include('member.urls.member_urls')),
+    path('contents', include('content.urls.content_urls')),
+    path('orders', include('order.urls.order_urls')),
 
 ]
 
@@ -30,9 +31,10 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('contents/', include('content.urls')),
-    path('members/', include('member.urls')),
-    path('orders/', include('order.urls')),
+    path('auth', include('member.urls.auth_urls')),
+    path('members', include('member.urls.member_urls')),
+    path('contents', include('content.urls.content_urls')),
+    path('orders', include('order.urls.order_urls')),
 
     # default page
     path('', lambda request: HttpResponse("Hello world"), name="index"),
@@ -40,5 +42,5 @@ urlpatterns = [
     # swagger
     re_path(r'^swagger(?P<base>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc-v1'),
 ]

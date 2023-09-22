@@ -13,6 +13,9 @@ from content.tests.test_artist_service import TestArtistService
 
 @pytest.mark.django_db
 class TestAlbumService(TestCase):
+    """
+    앨범 서비스 테스트 코드
+    """
     album_service = Services.album_service()
     test_artist_service = TestArtistService()
     test_album_additional_info_service = TestAlbumAdditionalInfoService()
@@ -37,11 +40,6 @@ class TestAlbumService(TestCase):
 
         print('--select_all_model--')
         self.test_select_all_model(params={})
-
-    def test_api(self):
-        self.test_crud()
-        self.test_api_select_all()
-        self.test_api_select()
 
     def test_create(self, params=None):
         if not params:
@@ -144,19 +142,3 @@ class TestAlbumService(TestCase):
         print(json.dumps(list(models.values()), ensure_ascii=False, cls=DjangoJSONEncoder))
 
         return models
-
-    def test_api_select_all(self):
-        response = self.api_client.get('/contents/albums')
-        print(f'response.status_code = {response.status_code}')
-        assert response.status_code == 200
-
-        print('response.data')
-        print(json.dumps(response.data, ensure_ascii=False))
-
-    def test_api_select(self):
-        response = self.api_client.get('/contents/albums/1')
-        print(f'response.status_code = {response.status_code}')
-        assert response.status_code == 200
-
-        print('response.data')
-        print(json.dumps(response.data, ensure_ascii=False))

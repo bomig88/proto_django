@@ -1,4 +1,5 @@
-from django.db.models import QuerySet
+from django.db import transaction
+from django.db.models import QuerySet, Model
 from django.forms import model_to_dict
 from django_filters import utils
 
@@ -46,10 +47,11 @@ class BaseService:
         else:
             raise Exception('Serializer를 지정해 주세요.')
 
+    @transaction.atomic
     def create(self, params: dict):
         """ 모델 생성
         Args:
-            params: 등록한 모델의 구성 정보
+            params: 등록할 모델의 구성 정보
         Returns:
             모델 Serializer
         """
@@ -59,6 +61,7 @@ class BaseService:
 
         return serializer
 
+    @transaction.atomic
     def modify(self, path_param: dict, params: dict = None, partial=False):
         """ 모델 수정
         Args:
@@ -79,6 +82,17 @@ class BaseService:
             instance._prefetched_objects_cache = {}
 
         return serializer
+
+    @transaction.atomic
+    def remove(self, path_params: dict):
+        """지정된 모델을 삭제합니다.
+        Args:
+            path_params: 삭제할 모델 pk params(dict)
+        Returns:
+        """
+        instance: Model = self.select_model(path_params)
+        if instance:
+            instance.delete()
 
     def select(self, path_param: dict, query: QuerySet = None, serializer=None):
         """ 모델 단일 조회 - Detail Serializer 사용

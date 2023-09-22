@@ -1,11 +1,13 @@
 from content.filters.music_filter import MusicFilter
 from content.models.music import Music
-from content.models.music_additional_info import MusicAdditionalInfo
 from content.serializers.music_serializer import MusicSerializer, MusicDetailSerializer, MusicListSerializer
 from core.base.base_service import BaseService
 
 
 class MusicService(BaseService):
+    """
+    곡 서비스
+    """
     queryset_list = (Music.objects
                      .select_related(Music.album_seq.field.name)
                      .all())

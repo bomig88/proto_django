@@ -4,6 +4,9 @@ from order.models.order import Order
 
 
 class OrderSimplificationSerializer01:
+    """
+    Swagger 주문 간소화 Serializer
+    """
     class Default(serializers.ModelSerializer):
 
         class Meta:
@@ -16,3 +19,4 @@ class OrderSimplificationSerializer01:
                 Order.create_at.field.name,
                 Order.update_at.field.name,
             ]
+            ref_name = __qualname__

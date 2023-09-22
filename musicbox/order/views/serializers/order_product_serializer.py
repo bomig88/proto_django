@@ -6,6 +6,9 @@ from order.models.order_product import OrderProduct
 
 
 class OrderProductSerializer01:
+    """
+    Swagger 주문 상품 Serializer
+    """
     class Default(serializers.ModelSerializer):
         class Meta:
             model = OrderProduct
@@ -93,6 +96,9 @@ class OrderProductSerializer01:
 
 
 class OrderProductSerializer02:
+    """
+    Swagger 주문 상품 Serializer
+    """
     class GetParam(serializers.Serializer):
         seq = OrderProductSerializer01.Field.seq(False)
         order_seq = OrderProductSerializer01.Field.order_seq(False)

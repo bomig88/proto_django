@@ -5,6 +5,9 @@ from content.models.artist import Artist
 
 
 class Album(models.Model):
+    """
+    앨범 모델
+    """
     objects = None
 
     class GenreChoices(models.TextChoices):

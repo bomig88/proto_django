@@ -1,10 +1,12 @@
 from rest_framework import serializers
 
-from order.models.order import Order
 from order.models.order_product import OrderProduct
 
 
 class OrderProductSimplificationSerializer01:
+    """
+    Swagger 주문 상품 간소화 Serializer
+    """
     class Default(serializers.ModelSerializer):
 
         class Meta:
@@ -20,3 +22,4 @@ class OrderProductSimplificationSerializer01:
                 OrderProduct.create_at.field.name,
                 OrderProduct.update_at.field.name,
             ]
+            ref_name = __qualname__

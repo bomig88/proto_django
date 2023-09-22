@@ -25,7 +25,7 @@ class MyMemberCreationForm(UserCreationForm):
 @admin.register(Member)
 class MyMemberAdmin(UserAdmin):
     model = Member
-    readonly_fields = ['last_login_at', 'leave_at', 'create_at', 'update_at', 'status', 'is_active']
+    readonly_fields = ['last_login_at', 'leave_at', 'create_at', 'update_at', 'is_active']
     fieldsets = (
         (None, {'fields': ('username', 'email', 'status', 'gender')}),
         (_('Permissions'), {'fields': ('is_active',
@@ -44,4 +44,3 @@ class MyMemberAdmin(UserAdmin):
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
     search_fields = ('email', 'username')
     ordering = ('email',)
-

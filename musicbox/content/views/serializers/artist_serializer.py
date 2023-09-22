@@ -7,6 +7,9 @@ from core.base.swagger_response_serializer import ResponseSerializer
 
 
 class ArtistSerializer01:
+    """
+    Swagger 아티스트 Serializer
+    """
     class Default(serializers.ModelSerializer):
 
         class Meta:
@@ -72,6 +75,9 @@ class ArtistSerializer01:
 
 
 class ArtistSerializer02:
+    """
+    Swagger 아티스트 Serializer
+    """
     class GetParam(serializers.Serializer):
         seq = ArtistSerializer01.Field.seq(False)
         name = ArtistSerializer01.Field.name(False)

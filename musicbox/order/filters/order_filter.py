@@ -6,10 +6,22 @@ from order.models.order import Order
 
 
 class OrderFilter(FilterSet):
+    """
+    주문 필터
+    """
     # 일련번호
     field = Order.seq.field
     oper_tp = FilterSet.Type.EXACT
     seq = django_filters.NumberFilter(
+        field_name=field.name,
+        lookup_expr=oper_tp,
+        help_text=FilterSet.get_msg(field.help_text, oper_tp)
+    )
+
+    # 일련번호
+    field = Order.seq.field
+    oper_tp = FilterSet.Type.IN
+    seqs = django_filters.BaseInFilter(
         field_name=field.name,
         lookup_expr=oper_tp,
         help_text=FilterSet.get_msg(field.help_text, oper_tp)

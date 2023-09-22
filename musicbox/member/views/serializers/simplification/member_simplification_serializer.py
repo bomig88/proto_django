@@ -4,6 +4,9 @@ from member.models.member import Member
 
 
 class MemberSimplificationSerializer01:
+    """
+    Swagger 회원 간소화 Serializer
+    """
     class Default(serializers.ModelSerializer):
 
         class Meta:
@@ -15,3 +18,4 @@ class MemberSimplificationSerializer01:
                 Member.create_at.field.name,
                 Member.update_at.field.name,
             ]
+            ref_name = __qualname__

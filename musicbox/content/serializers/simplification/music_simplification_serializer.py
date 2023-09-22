@@ -5,6 +5,9 @@ from content.models.music import Music
 
 
 class MusicSimplificationSerializer(serializers.ModelSerializer):
+    """
+    곡 간소화 Serializer
+    """
     class Default(serializers.ModelSerializer):
 
         class Meta:

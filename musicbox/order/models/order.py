@@ -4,6 +4,9 @@ from member.models.member import Member
 
 
 class Order(models.Model):
+    """
+    주문 모델
+    """
     objects = None
 
     class StatusChoice(models.TextChoices):
@@ -16,9 +19,9 @@ class Order(models.Model):
         help_text='일련번호(PK)'
     )
 
-    member_seq = models.OneToOneField(
+    member_seq = models.ForeignKey(
         Member,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         db_column='member_seq',
         db_constraint=False,
         related_name='member',
@@ -47,5 +50,5 @@ class Order(models.Model):
     )
 
     class Meta:
-        db_table = 't_usr_order'
+        db_table = 't_od_order'
         ordering = ['-seq']

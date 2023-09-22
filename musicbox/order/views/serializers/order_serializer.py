@@ -10,6 +10,9 @@ from order.views.serializers.order_product_serializer import OrderProductSeriali
 
 
 class OrderSerializer01:
+    """
+    Swagger 주문 Serializer
+    """
     class Default(serializers.ModelSerializer):
         class Meta:
             model = Order
@@ -94,6 +97,9 @@ class OrderSerializer01:
 
 
 class OrderSerializer02:
+    """
+    Swagger 주문 Serializer
+    """
     class GetParam(serializers.Serializer):
         seq = OrderSerializer01.Field.seq(False)
         member_seq = OrderSerializer01.Field.member_seq(False)
@@ -132,8 +138,6 @@ class OrderSerializer02:
             ref_name = __qualname__
 
     class PostRequest(serializers.Serializer):
-        member_seq = OrderSerializer01.Field.member_seq(required=True)
-
         order_products = OrderProductSerializer02.PostRequest(many=True)
 
         class Meta:
@@ -151,6 +155,31 @@ class OrderSerializer02:
                 ref_name = __qualname__
 
         data = PostResponseData(
+            required=False,
+            help_text="응답 데이터"
+        )
+
+        class Meta:
+            ref_name = __qualname__
+
+    class RefundPostRequest(serializers.Serializer):
+        order_product_seqs = serializers.CharField(help_text='환불할 주문 상품들 일련번호, ","구분자')
+
+        class Meta:
+            ref_name = __qualname__
+
+    class RefundPostResponse(ResponseSerializer):
+
+        class RefundPostResponseData(serializers.Serializer):
+            """
+            주문 등록 응답 Serializer
+            """
+            order = OrderSerializer01.Detail(help_text="환불 처리된 주문 정보")
+
+            class Meta:
+                ref_name = __qualname__
+
+        data = RefundPostResponseData(
             required=False,
             help_text="응답 데이터"
         )

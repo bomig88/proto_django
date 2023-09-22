@@ -5,6 +5,9 @@ from order.models.order import Order
 
 
 class OrderProduct(models.Model):
+    """
+    주문 상품 모델
+    """
     objects = None
 
     class StatusChoice(models.TextChoices):
@@ -85,5 +88,5 @@ class OrderProduct(models.Model):
         return order_product
 
     class Meta:
-        db_table = 't_usr_order_product'
+        db_table = 't_od_order_product'
         ordering = ['-seq']

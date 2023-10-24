@@ -107,6 +107,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # SWAGGER 설정
 SWAGGER_SETTINGS = {
+    'DOC_EXPANSION': 'list',
+    'USE_SESSION_AUTH': False,
+    'JSON_EDITOR': True,
     'SECURITY_DEFINITIONS': {
         'Bearer': {
             'type': 'apiKey',

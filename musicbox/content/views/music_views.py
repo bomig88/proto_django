@@ -34,7 +34,7 @@ class MusicView(APIView):
 
         serializer = self.music_service.select_all(query_params)
 
-        return ResponseData.response_data(RES_LIST_NM, serializer.data)
+        return ResponseData.response_data(RES_LIST_NM, serializer.data, self.music_service.get_paginated_response())
 
 
 class MusicDetailView(APIView):

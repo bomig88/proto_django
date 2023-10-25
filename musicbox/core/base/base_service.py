@@ -1,7 +1,9 @@
+from django.core.paginator import Paginator
 from django.db import transaction
 from django.db.models import QuerySet, Model
 from django.forms import model_to_dict
 from django_filters import utils
+from rest_framework.utils.serializer_helpers import ReturnList
 
 
 class BaseService:
@@ -14,6 +16,8 @@ class BaseService:
     serializer_list = None
     serializer_detail = None
     filter_set_class = None
+    paginator = None
+    page_size = 30
 
     @staticmethod
     def check_queryset(param_queryset: QuerySet, base_queryset: QuerySet):
@@ -94,6 +98,16 @@ class BaseService:
         if instance:
             instance.delete()
 
+    def get_page(self, queryset, params: dict):
+        # page_size가 존재하는 경우, 페이징 처리
+        if params:
+            if 'page_size' in params or 'page' in params:
+                page = Paginator(queryset, params.get('page_size', self.page_size))
+                self.paginator = page.get_page(params.get('page', 1))
+                queryset = list(self.paginator.object_list)
+
+        return queryset
+
     def select(self, path_param: dict, query: QuerySet = None, serializer=None):
         """ 모델 단일 조회 - Detail Serializer 사용
         Args:
@@ -103,10 +117,10 @@ class BaseService:
         Returns:
             모델 Serializer
         """
-        qs = self.select_model(path_param, query)
+        queryset = self.select_model(path_param, query)
         serializer = self.check_serializer(serializer, self.serializer_detail)
 
-        return serializer(qs, many=False)
+        return serializer(queryset, many=False)
 
     def select_plain(self, path_param: dict, query: QuerySet = None, serializer=None):
         """ 모델 단일 조회 - 기본 Serializer 사용
@@ -117,10 +131,10 @@ class BaseService:
         Returns:
             모델 Serializer
         """
-        qs = self.select_model(path_param, query)
+        queryset = self.select_model(path_param, query)
         serializer = self.check_serializer(serializer, self.serializer)
 
-        return serializer(qs, many=False)
+        return serializer(queryset, many=False)
 
     def select_model(self, path_param: dict, query: QuerySet = None):
         """ 모델 단일 조회
@@ -141,10 +155,11 @@ class BaseService:
         Returns:
             조회된 모델 목록 Serializer
         """
-        qs = self.filter_queryset(self.check_queryset(query, self.queryset_list), params)
+        queryset = self.filter_queryset(self.check_queryset(query, self.queryset_list), params)
+
         serializer = self.check_serializer(serializer, self.serializer_list)
 
-        return serializer(qs, many=True)
+        return serializer(self.get_page(queryset, params), many=True)
 
     def select_all_model(self, params: dict = None, query: QuerySet = None):
         """ 모델 목록 조회
@@ -154,7 +169,9 @@ class BaseService:
         Returns:
             조회된 모델 목록 QuerySet
         """
-        return self.filter_queryset(self.check_queryset(query, self.queryset_list), params)
+        queryset = self.filter_queryset(self.check_queryset(query, self.queryset_list), params)
+
+        return self.get_page(queryset, params)
 
     def filter_queryset(self, queryset: QuerySet, params: dict) -> QuerySet:
         """지정된 필터가 존재할 경우 QuerySet 내 필터를 적용하고, 존재하지 않은 경우 QuerySet을 반환
@@ -229,3 +246,20 @@ class BaseService:
             'data': params,
             'queryset': queryset
         }
+
+    def get_paginated_response(self) -> dict:
+        """paging 데이터 반환 함수
+        paging 데이터 반환 함수입니다.
+        Returns:
+          paging dict
+        """
+
+        paging = dict()
+
+        if hasattr(self, 'paginator') and self.paginator:
+            paging['total_count'] = self.paginator.paginator.count
+            paging['current_page'] = self.paginator.number
+            paging['max_page'] = self.paginator.paginator.num_pages
+            paging['row_num'] = self.paginator.paginator.per_page
+
+        return paging

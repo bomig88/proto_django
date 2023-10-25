@@ -5,7 +5,7 @@ from content.models.album import Album
 from content.views.serializers.album_additional_info_serializer import AlbumAdditionalInfoSerializer01
 from content.views.serializers.artist_serializer import ArtistSerializer01
 from content.views.serializers.simplification.music_simplification_serializer import MusicSimplificationSerializer01
-from core.base.swagger_response_serializer import ResponseSerializer
+from core.base.swagger_response_serializer import ResponseSerializer, PagingResponseSerializer, PagingFieldSerializer
 
 
 class AlbumSerializer01:
@@ -98,12 +98,16 @@ class AlbumSerializer02:
         name = AlbumSerializer01.Field.name(False)
         sch_start_create_dt = AlbumSerializer01.Field.sch_start_create_dt(False)
         sch_end_create_dt = AlbumSerializer01.Field.sch_end_create_dt(False)
+
+        page = PagingFieldSerializer.page(False)
+        page_size = PagingFieldSerializer.page_size(False)
+
         ordering = AlbumSerializer01.Field.ordering(False)
 
         class Meta:
             ref_name = __qualname__
 
-    class GetResponse(serializers.Serializer):
+    class GetResponse(PagingResponseSerializer):
         albums = serializers.ListField(
             child=AlbumSerializer01.List(),
             required=False,

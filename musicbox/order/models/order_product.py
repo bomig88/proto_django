@@ -53,6 +53,7 @@ class OrderProduct(models.Model):
 
     refund_at = models.DateTimeField(
         null=True,
+        blank=True,
         help_text='환불 일시'
     )
 

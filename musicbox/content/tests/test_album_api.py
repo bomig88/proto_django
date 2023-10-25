@@ -4,7 +4,7 @@ from django.test import TestCase
 
 import pytest
 
-from tests.test_template_service import TestAlbumService
+from content.tests.test_album_service import TestAlbumService
 
 
 @pytest.mark.django_db
@@ -20,7 +20,7 @@ class TestAlbumApi(TestCase):
         self.test_api_select()
 
     def test_api_select_all(self):
-        response = self.api_client.get('/contents/albums')
+        response = self.api_client.get('/contents/albums?page=1')
         print(f'response.status_code = {response.status_code}')
         assert response.status_code == 200
 

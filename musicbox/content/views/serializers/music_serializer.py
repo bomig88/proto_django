@@ -4,7 +4,7 @@ from content.filters.music_filter import MusicFilter
 from content.models.music import Music
 from content.views.serializers.music_additional_info_serializer import MusicAdditionalInfoSerializer01
 from content.views.serializers.simplification.album_simplification_serializer import AlbumSimplificationSerializer01
-from core.base.swagger_response_serializer import ResponseSerializer
+from core.base.swagger_response_serializer import ResponseSerializer, PagingResponseSerializer, PagingFieldSerializer
 
 
 class MusicSerializer01:
@@ -96,12 +96,16 @@ class MusicSerializer02:
         name = MusicSerializer01.Field.name(False)
         sch_start_create_dt = MusicSerializer01.Field.sch_start_create_dt(False)
         sch_end_create_dt = MusicSerializer01.Field.sch_end_create_dt(False)
+
+        page = PagingFieldSerializer.page(False)
+        page_size = PagingFieldSerializer.page_size(False)
+
         ordering = MusicSerializer01.Field.ordering(False)
 
         class Meta:
             ref_name = __qualname__
 
-    class GetResponse(serializers.Serializer):
+    class GetResponse(PagingResponseSerializer):
         musics = serializers.ListField(
             child=MusicSerializer01.List(),
             required=False,

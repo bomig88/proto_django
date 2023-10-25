@@ -2,6 +2,7 @@ import json
 
 import pytest
 from django.core.serializers.json import DjangoJSONEncoder
+from django.db.models import QuerySet
 from django.forms import model_to_dict
 from django.test import TestCase
 
@@ -32,10 +33,10 @@ class TestMemberService(TestCase):
         self.test_modify(path_param=path_param, modify_params={'gender': Member.GenderChoice.F.value})
 
         print('--select_all--')
-        self.test_select_all(params={})
+        self.test_select_all(params={'page':1})
 
         print('--select_all_model--')
-        self.test_select_all_model(params={})
+        self.test_select_all_model(params={'page_size':1})
 
     def test_cycle(self):
         print('--create--')
@@ -183,6 +184,9 @@ class TestMemberService(TestCase):
         models = self.member_service.select_all_model(params=params)
 
         print('models')
-        print(json.dumps(list(models.values()), ensure_ascii=False, cls=DjangoJSONEncoder))
+        if isinstance(models, QuerySet):
+            print(json.dumps(list(models.values()), ensure_ascii=False, cls=DjangoJSONEncoder))
+        else:
+            print(json.dumps([model_to_dict(item) for item in models], ensure_ascii=False, cls=DjangoJSONEncoder))
 
         return models

@@ -2,6 +2,7 @@ import json
 
 import pytest
 from django.core.serializers.json import DjangoJSONEncoder
+from django.db.models import QuerySet
 from django.forms import model_to_dict
 from django.test import TestCase
 
@@ -139,6 +140,9 @@ class TestMusicService(TestCase):
         models = self.music_service.select_all_model(params=params)
 
         print('models')
-        print(json.dumps(list(models.values()), ensure_ascii=False, cls=DjangoJSONEncoder))
+        if isinstance(models, QuerySet):
+            print(json.dumps(list(models.values()), ensure_ascii=False, cls=DjangoJSONEncoder))
+        else:
+            print(json.dumps([model_to_dict(item) for item in models], ensure_ascii=False, cls=DjangoJSONEncoder))
 
         return models

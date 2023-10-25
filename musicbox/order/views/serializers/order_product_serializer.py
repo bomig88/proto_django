@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from core.base.swagger_response_serializer import ResponseSerializer
+from core.base.swagger_response_serializer import ResponseSerializer, PagingResponseSerializer, PagingFieldSerializer
 from order.filters.order_product_filter import OrderProductFilter
 from order.models.order_product import OrderProduct
 
@@ -106,12 +106,16 @@ class OrderProductSerializer02:
         paid_at = OrderProductSerializer01.Field.paid_at(False)
         sch_start_create_dt = OrderProductSerializer01.Field.sch_start_create_dt(False)
         sch_end_create_dt = OrderProductSerializer01.Field.sch_end_create_dt(False)
+
+        page = PagingFieldSerializer.page(False)
+        page_size = PagingFieldSerializer.page_size(False)
+
         ordering = OrderProductSerializer01.Field.ordering(False)
 
         class Meta:
             ref_name = __qualname__
 
-    class GetResponse(serializers.Serializer):
+    class GetResponse(PagingResponseSerializer):
         order_products = serializers.ListField(
             child=OrderProductSerializer01.List(),
             required=False,

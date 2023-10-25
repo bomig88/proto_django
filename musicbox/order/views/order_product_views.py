@@ -34,7 +34,7 @@ class OrderProductView(APIView):
 
         serializer = self.order_product_service.select_all(params=query_params)
 
-        return ResponseData.response_data(RES_LIST_NM, serializer.data)
+        return ResponseData.response_data(RES_LIST_NM, serializer.data, self.order_product_service.get_paginated_response())
 
 
 class OrderProductDetailView(APIView):

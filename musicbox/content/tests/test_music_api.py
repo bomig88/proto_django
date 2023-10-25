@@ -20,7 +20,7 @@ class TestMusicApi(TestCase):
         self.test_api_select()
 
     def test_api_select_all(self):
-        response = self.api_client.get('/contents/musics')
+        response = self.api_client.get('/contents/musics?page=1')
         print(f'response.status_code = {response.status_code}')
         assert response.status_code == 200
 

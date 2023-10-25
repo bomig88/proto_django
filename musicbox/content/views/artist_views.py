@@ -34,7 +34,7 @@ class ArtistView(APIView):
 
         serializer = self.artist_service.select_all(query_params)
 
-        return ResponseData.response_data(RES_LIST_NM, serializer.data)
+        return ResponseData.response_data(RES_LIST_NM, serializer.data, self.artist_service.get_paginated_response())
 
 
 class ArtistDetailView(APIView):

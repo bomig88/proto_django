@@ -34,7 +34,7 @@ class AlbumView(APIView):
 
         serializer = self.album_service.select_all(params=query_params)
 
-        return ResponseData.response_data(RES_LIST_NM, serializer.data)
+        return ResponseData.response_data(RES_LIST_NM, serializer.data, self.album_service.get_paginated_response())
 
 
 class AlbumDetailView(APIView):

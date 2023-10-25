@@ -34,7 +34,7 @@ class OrderView(APIView):
 
         serializer = self.order_service.select_all(params=query_params)
 
-        return ResponseData.response_data(RES_LIST_NM, serializer.data)
+        return ResponseData.response_data(RES_LIST_NM, serializer.data, self.order_service.get_paginated_response())
 
     @swagger_auto_schema(
         tags=[NM],

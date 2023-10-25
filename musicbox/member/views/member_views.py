@@ -36,7 +36,7 @@ class MemberView(APIView):
 
         serializer = self.member_service.select_all(params=query_params)
 
-        return ResponseData.response_data(RES_LIST_NM, serializer.data)
+        return ResponseData.response_data(RES_LIST_NM, serializer.data, self.member_service.get_paginated_response())
 
 
 class MemberRegisterView(APIView):

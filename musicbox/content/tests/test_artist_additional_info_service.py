@@ -124,9 +124,9 @@ class TestArtistAdditionalInfoService(TestCase):
         print('params')
         print(params)
 
-        models = self.artist_additional_info_service.select_all_model(params=params)
+        page = self.artist_additional_info_service.select_all_model(params=params)
 
-        print('models')
-        print(json.dumps(list(models.values()), ensure_ascii=False, cls=DjangoJSONEncoder))
+        print('page')
+        print(json.dumps([model_to_dict(aai) for aai in page], ensure_ascii=False, cls=DjangoJSONEncoder))
 
-        return models
+        return page

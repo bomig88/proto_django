@@ -131,9 +131,9 @@ class TestMusicAdditionalInfoService(TestCase):
         print('params')
         print(params)
 
-        models = self.music_additional_info_service.select_all_model(params=params)
+        page = self.music_additional_info_service.select_all_model(params=params)
 
-        print('models')
-        print(json.dumps(list(models.values()), ensure_ascii=False, cls=DjangoJSONEncoder))
+        print('page')
+        print(json.dumps([model_to_dict(mai) for mai in page], ensure_ascii=False, cls=DjangoJSONEncoder))
 
-        return models
+        return page

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from core.base.swagger_response_serializer import ResponseSerializer
+from core.base.swagger_response_serializer import ResponseSerializer, PagingResponseSerializer, PagingFieldSerializer
 from member.filters.member_filter import MemberFilter
 from member.models.member import Member
 
@@ -129,12 +129,16 @@ class MemberSerializer02:
         email = MemberSerializer01.Field.email(False)
         sch_start_create_dt = MemberSerializer01.Field.sch_start_create_dt(False)
         sch_end_create_dt = MemberSerializer01.Field.sch_end_create_dt(False)
+
+        page = PagingFieldSerializer.page(False)
+        page_size = PagingFieldSerializer.page_size(False)
+
         ordering = MemberSerializer01.Field.ordering(False)
 
         class Meta:
             ref_name = __qualname__
 
-    class GetResponse(serializers.Serializer):
+    class GetResponse(PagingResponseSerializer):
         members = serializers.ListField(
             child=MemberSerializer01.List(),
             required=False,

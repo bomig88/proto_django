@@ -1,6 +1,4 @@
 from django.contrib.auth.base_user import BaseUserManager
-from core.fields.encrypted_char_field import CryptoSha256
-from django.conf import settings
 
 
 class BaseUserManager(BaseUserManager):
@@ -23,8 +21,7 @@ class BaseUserManager(BaseUserManager):
             raise TypeError('Superusers must have a password.')
 
         user = self.create_user(username, password)
-        user.is_superuser = True
-        user.is_staff = True
+        user.tag = user.TagChoice.SUPER_MANAGER.value
         user.save()
 
         return user

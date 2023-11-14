@@ -13,10 +13,6 @@ class AbstractBaseUser(models.Model):
     password = models.CharField(max_length=128)
     last_login_at = models.DateTimeField(blank=True, null=True)
 
-    is_active = True
-    is_superuser = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=False)
-
     REQUIRED_FIELDS = []
 
     # Stores the raw password if set_password() is called so that it can

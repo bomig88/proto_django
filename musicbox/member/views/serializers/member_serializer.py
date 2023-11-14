@@ -12,19 +12,34 @@ class MemberSerializer01:
     class Default(serializers.ModelSerializer):
         class Meta:
             model = Member
-            fields = '__all__'
+            exclude = [
+                Member.password.field.name,
+                Member.simplicity_key.field.name,
+                Member.groups.field.name,
+                Member.user_permissions.field.name,
+            ]
             ref_name = __qualname__
 
     class List(serializers.ModelSerializer):
         class Meta:
             model = Member
-            fields = '__all__'
+            exclude = [
+                Member.password.field.name,
+                Member.simplicity_key.field.name,
+                Member.groups.field.name,
+                Member.user_permissions.field.name,
+            ]
             ref_name = __qualname__
 
     class Detail(serializers.ModelSerializer):
         class Meta:
             model = Member
-            fields = '__all__'
+            exclude = [
+                Member.password.field.name,
+                Member.simplicity_key.field.name,
+                Member.groups.field.name,
+                Member.user_permissions.field.name,
+            ]
             ref_name = __qualname__
 
     class Field(serializers.Serializer):
@@ -70,28 +85,21 @@ class MemberSerializer01:
             return gender
 
         @staticmethod
+        def tag(required=True):
+            tag = serializers.ChoiceField(
+                choices=tuple(Member.TagChoice.choices),
+                required=required,
+                help_text=f'{Member.tag.field.help_text} \ {str(Member.TagChoice.choices)}'
+            )
+            return tag
+
+        @staticmethod
         def birthday(required=True):
             birthday = serializers.CharField(
                 required=required,
                 help_text=Member.birthday.field.help_text
             )
             return birthday
-
-        @staticmethod
-        def is_staff(required=True):
-            is_staff = serializers.BooleanField(
-                required=required,
-                help_text=Member.is_staff.field.help_text
-            )
-            return is_staff
-
-        @staticmethod
-        def is_superuser(required=True):
-            is_superuser = serializers.BooleanField(
-                required=required,
-                help_text=Member.is_superuser.field.help_text
-            )
-            return is_superuser
 
         @staticmethod
         def sch_start_create_dt(required=True):
@@ -169,9 +177,7 @@ class MemberSerializer02:
         email = MemberSerializer01.Field.email(required=True)
         gender = MemberSerializer01.Field.gender(required=True)
         birthday = MemberSerializer01.Field.birthday(required=True)
-
-        is_staff = MemberSerializer01.Field.is_staff(required=True)
-        is_superuser = MemberSerializer01.Field.is_superuser(required=True)
+        tag = MemberSerializer01.Field.tag(required=True)
 
         class Meta:
             ref_name = __qualname__

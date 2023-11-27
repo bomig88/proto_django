@@ -1,4 +1,5 @@
 import django_filters
+from django_filters.widgets import CSVWidget
 
 from core.base.filter_set import FilterSet
 from member.models.member import Member
@@ -32,6 +33,16 @@ class MemberFilter(FilterSet):
     email = django_filters.CharFilter(
         field_name=field.name,
         lookup_expr=oper_tp,
+        help_text=FilterSet.get_msg(field.help_text, oper_tp)
+    )
+
+    # 분류
+    field = Member.tag.field
+    oper_tp = FilterSet.Type.IN
+    tag = django_filters.MultipleChoiceFilter(
+        field_name=field.name,
+        choices=tuple(Member.TagChoice.choices),
+        widget=CSVWidget,
         help_text=FilterSet.get_msg(field.help_text, oper_tp)
     )
 

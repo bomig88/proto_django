@@ -167,5 +167,5 @@ class Member(AbstractBaseUser, PermissionsMixin):
 
     class Meta:
         db_table = 't_mb_member'
-        unique_together = ('username', 'email', 'tag')
+        unique_together = ('email', 'tag')
         ordering = ['-seq']

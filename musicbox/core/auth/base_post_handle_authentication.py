@@ -1,5 +1,7 @@
 import traceback
 import datetime
+import redis
+import json
 
 from django.contrib.auth import get_user_model, logout, login
 from django.contrib.auth.models import AnonymousUser
@@ -15,6 +17,8 @@ from core.fields.encrypted_char_field import CryptoSha256
 from core.utils.datetime_util import DatetimeUtil
 from django.conf import settings
 from core.utils.logging_util import LoggingUtil
+from member.serializers.simplification.member_simplification_serializer import MemberSimplificationLoginSerializer
+from core.base.redis_config import redis_config
 
 
 class BasePostHandleAuthentication(BaseBackend):
@@ -23,6 +27,7 @@ class BasePostHandleAuthentication(BaseBackend):
     """
     UserModel = get_user_model()
     logger = LoggingUtil()
+    rd = redis_config()
 
     NM = '사용자'
 
@@ -126,6 +131,11 @@ class BasePostHandleAuthentication(BaseBackend):
         response['refresh_token_expire_at'] = DatetimeUtil.datetime_delta(
             refresh.current_time, seconds=refresh.lifetime.total_seconds()
         )
+        serialize_user = MemberSimplificationLoginSerializer(user, many=False).data
+        response['member'] = serialize_user
+
+        # redis cache save
+        self.rd.set(user.seq, json.dumps(serialize_user))
 
         return response
 
@@ -226,7 +236,10 @@ class BasePostHandleAuthentication(BaseBackend):
             if not request.user or isinstance(request.user, AnonymousUser):
                 raise Exception('로그인 사용자 정보가 없습니다.')
 
+            user_seq = request.user.seq
             logout(request)
+            # redis cache delete
+            self.rd.delete(user_seq)
 
             return True
         except (Exception) as error:

@@ -15,6 +15,7 @@ class MemberSimplificationSerializer01:
                 Member.seq.field.name,
                 Member.username.field.name,
                 Member.status.field.name,
+                Member.tag.field.name,
                 Member.create_at.field.name,
                 Member.update_at.field.name,
             ]

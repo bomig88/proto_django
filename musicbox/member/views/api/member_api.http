@@ -1,0 +1,29 @@
+### 회원 조회
+GET http://{{BASE_URL}}:{{PORT}}/members
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+### 회원 상세 조회
+GET http://{{BASE_URL}}:{{PORT}}/members/1
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+### 회원 가입
+POST http://{{BASE_URL}}:{{PORT}}/members/register
+Content-Type: application/json
+
+{
+  "username": "bomig88",
+  "password": "test1234",
+  "birthday": "19880825",
+  "gender": "F",
+  "email": "bomig88@gmail.com",
+  "tag": "super_manager"
+}
+
+### 회원 탈퇴
+POST http://{{BASE_URL}}:{{PORT}}/members/1/leave
+Content-Type: application/json
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+{
+
+}

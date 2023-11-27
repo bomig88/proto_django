@@ -44,7 +44,7 @@ class MemberSerializer01:
 
     class Field(serializers.Serializer):
         @staticmethod
-        def seq(required=True):
+        def seq(required=False):
             seq = serializers.IntegerField(
                 required=required,
                 help_text=Member.seq.field.help_text
@@ -52,7 +52,7 @@ class MemberSerializer01:
             return seq
 
         @staticmethod
-        def username(required=True):
+        def username(required=False):
             username = serializers.CharField(
                 required=required,
                 help_text=Member.username.field.help_text
@@ -60,7 +60,7 @@ class MemberSerializer01:
             return username
 
         @staticmethod
-        def password(required=True):
+        def password(required=False):
             password = serializers.CharField(
                 required=required,
                 help_text=Member.password.field.help_text
@@ -68,7 +68,7 @@ class MemberSerializer01:
             return password
 
         @staticmethod
-        def email(required=True):
+        def email(required=False):
             email = serializers.CharField(
                 required=required,
                 help_text=Member.email.field.help_text
@@ -76,7 +76,7 @@ class MemberSerializer01:
             return email
 
         @staticmethod
-        def gender(required=True):
+        def gender(required=False):
             gender = serializers.ChoiceField(
                 choices=tuple(Member.GenderChoice.choices),
                 required=required,
@@ -85,7 +85,16 @@ class MemberSerializer01:
             return gender
 
         @staticmethod
-        def tag(required=True):
+        def status(required=False):
+            status = serializers.ChoiceField(
+                choices=tuple(Member.StatusChoice.choices),
+                required=required,
+                help_text=f'{Member.status.field.help_text} \ {str(Member.StatusChoice.choices)}'
+            )
+            return status
+
+        @staticmethod
+        def tag(required=False):
             tag = serializers.ChoiceField(
                 choices=tuple(Member.TagChoice.choices),
                 required=required,
@@ -94,7 +103,7 @@ class MemberSerializer01:
             return tag
 
         @staticmethod
-        def birthday(required=True):
+        def birthday(required=False):
             birthday = serializers.CharField(
                 required=required,
                 help_text=Member.birthday.field.help_text
@@ -102,7 +111,7 @@ class MemberSerializer01:
             return birthday
 
         @staticmethod
-        def sch_start_create_dt(required=True):
+        def sch_start_create_dt(required=False):
             sch_start_create_dt = serializers.DateTimeField(
                 required=required,
                 help_text=MemberFilter.base_filters['sch_start_create_dt'].field.help_text
@@ -110,7 +119,7 @@ class MemberSerializer01:
             return sch_start_create_dt
 
         @staticmethod
-        def sch_end_create_dt(required=True):
+        def sch_end_create_dt(required=False):
             sch_end_create_dt = serializers.DateTimeField(
                 required=required,
                 help_text=MemberFilter.base_filters['sch_end_create_dt'].field.help_text
@@ -132,16 +141,18 @@ class MemberSerializer02:
     Swagger 회원 Serializer
     """
     class GetParam(serializers.Serializer):
-        seq = MemberSerializer01.Field.seq(False)
-        username = MemberSerializer01.Field.username(False)
-        email = MemberSerializer01.Field.email(False)
-        sch_start_create_dt = MemberSerializer01.Field.sch_start_create_dt(False)
-        sch_end_create_dt = MemberSerializer01.Field.sch_end_create_dt(False)
+        seq = MemberSerializer01.Field.seq(required=False)
+        username = MemberSerializer01.Field.username(required=False)
+        email = MemberSerializer01.Field.email(required=False)
+        status = MemberSerializer01.Field.status(required=False)
+        tag = MemberSerializer01.Field.tag(required=False)
+        sch_start_create_dt = MemberSerializer01.Field.sch_start_create_dt(required=False)
+        sch_end_create_dt = MemberSerializer01.Field.sch_end_create_dt(required=False)
 
-        page = PagingFieldSerializer.page(False)
-        page_size = PagingFieldSerializer.page_size(False)
+        page = PagingFieldSerializer.page(required=False)
+        page_size = PagingFieldSerializer.page_size(required=False)
 
-        ordering = MemberSerializer01.Field.ordering(False)
+        ordering = MemberSerializer01.Field.ordering(required=False)
 
         class Meta:
             ref_name = __qualname__

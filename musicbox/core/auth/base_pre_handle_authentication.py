@@ -1,12 +1,13 @@
+import json
 from rest_framework.authentication import BaseAuthentication
-from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
-from rest_framework import HTTP_HEADER_ENCODING, authentication
+from rest_framework import HTTP_HEADER_ENCODING
 
 from rest_framework_simplejwt.exceptions import AuthenticationFailed, InvalidToken, TokenError
 from rest_framework_simplejwt.settings import api_settings
 from core.utils.logging_util import LoggingUtil
+from core.base.redis_config import redis_config
 
 
 AUTH_HEADER_TYPES = api_settings.AUTH_HEADER_TYPES
@@ -27,6 +28,7 @@ class BasePreHandleAuthentication(BaseAuthentication):
         SimpleJWT Token 인증
     """
     logger = LoggingUtil()
+    rd = redis_config()
     www_authenticate_realm = 'api'
 
     def authenticate(self, request):
@@ -123,16 +125,13 @@ class BasePreHandleAuthentication(BaseAuthentication):
         Returns: 사용자 정보
         """
         try:
-            user_id = validated_token[api_settings.USER_ID_CLAIM]
+            user_seq = validated_token[api_settings.USER_ID_CLAIM]
         except KeyError:
             raise InvalidToken(_('토큰에 사용자 정보가 없습니다.'))
 
         try:
-            user = User.objects.get(**{api_settings.USER_ID_FIELD: user_id})
+            user = User(**json.loads(self.rd.get(user_seq)))
         except User.DoesNotExist:
             raise AuthenticationFailed(_('사용자를 찾지 못했습니다.'), code='user_not_found')
-
-        if not user.is_active:
-            raise AuthenticationFailed(_('사용자가 비활성화 상태입니다.'), code='user_inactive')
 
         return user

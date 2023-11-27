@@ -17,11 +17,14 @@
 * 서버 구동
   * docker-compose-runserver 이용해서 진행
 ---
-* 어드민 페이지
+#### > [3. 호스트](#toc_10)
+* http://127.0.0.1:8080/
+---
+#### > [4.어드민 페이지](#toc_10)
   * http://127.0.0.1:8080/admin/
 ---
-* Swagger 페이지
-  * http://127.0.0.1:8080/swagger/
+#### > [5. Swagger 페이지](#toc_10)  
+* http://127.0.0.1:8080/swagger/
   * 로그인 인증이 필요한 API 테스트 방법
     * 회원 > 회원 등록 진행 (이미 등록했다면 스킵)
     * 인증 > 인증 로그인 API 호출
@@ -32,3 +35,7 @@
           * ex. Bearer eyJhbGciOiw...aj2mIufwjZNk
       * 팝업의 Authorize 버튼 클릭해서 승인
       * 인증이 필요한 다른 API 호출 가능
+---
+#### > [99. 이슈 기록](#toc_10)
+* backports.zoneinfo 라이브러리는 python 3.9 미만에서 동작하므로, requriements.txt의 관련 정보를 아래와 같이 기입하여야 docker 빌드가 성공적으로 진행될 수 있다.
+  * backports.zoneinfo==0.2.1;python_version<"3.9"

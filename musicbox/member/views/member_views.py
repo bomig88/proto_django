@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 
 from _musicbox.containers import Services
 from core.auth.base_permissions import AllowAny
+from core.auth.base_post_handle_authentication import BasePostHandleAuthentication
 from core.base.response_data import ResponseData
 from core.base.swagger_response_serializer import ResponseSerializer
 from member.views.serializers.member_serializer import MemberSerializer02
@@ -16,7 +17,6 @@ RES_DETAIL_NM = "member"
 
 
 class MemberView(APIView):
-    permission_classes = [AllowAny]
     member_service = Services.member_service()
 
     @swagger_auto_schema(
@@ -90,5 +90,7 @@ class MemberLeaveView(APIView):
     )
     def post(self, request: Request, **kwargs: dict) -> Response:
         self.member_service.leave(kwargs, request.data)
+        # 회원 탈퇴에 따른 현재 로그인 인증의 로그아웃 처리
+        BasePostHandleAuthentication().logout(request)
 
         return Response(ResponseData.response(True))

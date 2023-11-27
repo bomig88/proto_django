@@ -3,8 +3,8 @@ POST http://{{BASE_URL}}:{{PORT}}/auth/login
 Content-Type: application/json
 
 {
-  "username": "test1",
-  "password": "1234"
+  "username": "bomig88",
+  "password": "test1234"
 }
 
 > {%
@@ -12,16 +12,16 @@ client.test("응답이 정상적으로 왔는지 확인한다", function() {
     client.log("응답코드= "+response.status);
     client.assert(response.status === 200 || response.status === 302,"응답 실패");
 
-    client.global.set("access_token", response.body.data.auth.access_token);
-    client.global.set("refresh_token", response.body.data.auth.refresh_token);
-    client.log('Bearer ' + client.global.get("access_token"))
+    client.global.set("ACCESS_TOKEN", response.body.data.auth.access_token);
+    client.global.set("REFRESH_TOKEN", response.body.data.auth.refresh_token);
+    client.log('Bearer ' + client.global.get("ACCESS_TOKEN"))
 });
 %}
 
 ### 관리자 로그아웃
 POST http://{{BASE_URL}}:{{PORT}}/auth/logout
 Content-Type: application/json
-Authorization: Bearer {{access_token}}
+Authorization: Bearer {{ACCESS_TOKEN}}
 
 ### verify token
 POST http://{{BASE_URL}}:{{PORT}}/auth/token/verify
@@ -56,14 +56,14 @@ client.test("응답이 정상적으로 왔는지 확인한다", function() {
 ### API 권한 Test
 GET http://{{BASE_URL}}:{{PORT}}/auth/permission_test?page=1&page_size=100&ordering=-seq
 Content-Type: application/json
-Authorization: Bearer {{access_token}}
+Authorization: Bearer {{ACCESS_TOKEN}}
 
 ### API 권한 Test
 GET http://{{BASE_URL}}:{{PORT}}/auth/permission_test/62
 Content-Type: application/json
-Authorization: Bearer {{access_token}}
+Authorization: Bearer {{ACCESS_TOKEN}}
 
 ### API 권한 Pass Test
 GET http://{{BASE_URL}}:{{PORT}}/auth/permission_any_test?page=1&page_size=100&ordering=-seq
 Content-Type: application/json
-#Authorization: Bearer {{access_token}}
+#Authorization: Bearer {{ACCESS_TOKEN}}

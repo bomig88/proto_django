@@ -32,8 +32,6 @@ INSTALLED_APPS = [
     'drf_yasg',
     '_musicbox',
     'member',
-    'content',
-    'order',
 ]
 
 REST_FRAMEWORK = {
@@ -79,13 +77,25 @@ WSGI_APPLICATION = '_musicbox.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        "HOST": os.environ.get('POSTGRES_HOST'),
+        "NAME": os.environ.get('POSTGRES_DB'),
+        "USER": os.environ.get('POSTGRES_USER'),
+        "PASSWORD": os.environ.get('POSTGRES_PASSWORD'),
+        "PORT": os.environ.get('POSTGRES_PORT'),
+        'TEST': {
+            'NAME': 'test_local_' + os.environ.get('POSTGRES_DB'),
+        }
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

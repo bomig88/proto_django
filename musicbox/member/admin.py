@@ -14,12 +14,10 @@ class MyMemberChangeForm(UserChangeForm):
 
 class MyMemberCreationForm(UserCreationForm):
     status = Member.StatusChoice.JOIN.value
-    is_staff = False
-    is_superuser = False
 
     class Meta:
         model = Member
-        fields = ('email', 'username', 'status', 'gender', 'birthday')
+        fields = ('email', 'username', 'status', 'gender', 'birthday', 'tag')
 
 
 @admin.register(Member)
@@ -27,7 +25,7 @@ class MyMemberAdmin(UserAdmin):
     model = Member
     readonly_fields = ['last_login_at', 'leave_at', 'create_at', 'update_at', 'is_active']
     fieldsets = (
-        (None, {'fields': ('username', 'email', 'status', 'gender')}),
+        (None, {'fields': ('username', 'email', 'tag', 'status', 'gender')}),
         (_('Permissions'), {'fields': ('is_active',
                                        'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login_at', 'leave_at', 'create_at', 'update_at')}),
@@ -40,7 +38,7 @@ class MyMemberAdmin(UserAdmin):
     )
     form = MyMemberChangeForm
     add_form = MyMemberCreationForm
-    list_display = ('username', 'email', 'gender', 'status')
-    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
+    list_display = ('username', 'email', 'gender', 'status', 'tag')
+    list_filter = ('tag', 'is_active', 'groups')
     search_fields = ('email', 'username')
     ordering = ('email',)

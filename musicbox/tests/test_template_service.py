@@ -2,15 +2,20 @@ import json
 
 import pytest
 from django.core.serializers.json import DjangoJSONEncoder
+from django.db.models import QuerySet
 from django.forms import model_to_dict
 from django.test import TestCase
 
 from _musicbox.containers import Services
+from member.models.member import Member
 
 
 @pytest.mark.django_db
-class TestAlbumService(TestCase):
-    artist_service = Services.artist_service()
+class TestMemberService(TestCase):
+    """
+    회원 서비스 테스트 코드
+    """
+    member_service = Services.member_service()
 
     def test_crud(self):
         print('--create--')
@@ -25,23 +30,112 @@ class TestAlbumService(TestCase):
         self.test_select_model(params=path_param)
 
         print('--modify--')
-        self.test_modify(path_param=path_param, modify_params={'name': f'{instance["name"]}_test!'})
+        self.test_modify(path_param=path_param, modify_params={'gender': Member.GenderChoice.F.value})
 
         print('--select_all--')
-        self.test_select_all(params={})
+        self.test_select_all(params={'page':1})
 
         print('--select_all_model--')
-        self.test_select_all_model(params={})
+        self.test_select_all_model(params={'page_size':1})
 
-    def test_create(self, params=None):
+    def test_cycle(self):
+        print('--create--')
+        instance = self.test_register()
+
+        path_param = {'seq': instance['seq']}
+
+        print('--select--')
+        self.test_select(params=path_param)
+
+        print('--leave--')
+        self.test_leave(path_param)
+
+    @staticmethod
+    def get_register_sample():
+        params = dict()
+        params['username'] = 'regit1'
+        params['password'] = 'test1234'
+        params['birthday'] = '20000101'
+        params['gender'] = Member.GenderChoice.F.value
+        params['email'] = 'bomig88@gmail.com'
+        params['tag'] = Member.TagChoice.BASIC_USER.value
+        return params
+
+    @staticmethod
+    def get_register_simplicity_user_sample():
+        params = dict()
+        params['username'] = 'regit1'
+        params['password'] = 'test1234'
+        params['birthday'] = '20000101'
+        params['gender'] = Member.GenderChoice.F.value
+        params['email'] = 'bomig88@gmail.com'
+        params['tag'] = Member.TagChoice.SIMPLICITY_USER.value
+        return params
+
+    @staticmethod
+    def get_register_manager_sample():
+        params = dict()
+        params['username'] = 'regit1'
+        params['password'] = 'test1234'
+        params['birthday'] = '20000101'
+        params['gender'] = Member.GenderChoice.F.value
+        params['email'] = 'bomig88@gmail.com'
+        params['tag'] = Member.TagChoice.MANAGER.value
+        return params
+
+    @staticmethod
+    def get_register_super_manager_sample():
+        params = dict()
+        params['username'] = 'regit1'
+        params['password'] = 'test1234'
+        params['birthday'] = '20000101'
+        params['gender'] = Member.GenderChoice.F.value
+        params['email'] = 'bomig88@gmail.com'
+        params['tag'] = Member.TagChoice.SUPER_MANAGER.value
+        return params
+
+    def test_register(self, params=None):
         if not params:
-            params = dict()
-            params['name'] = '아이브'
+            params = TestMemberService.get_register_sample()
 
         print('params')
         print(params)
 
-        serializer = self.artist_service.create(params)
+        serializer = self.member_service.register(params)
+
+        print('serializer')
+        print(json.dumps(serializer.data, ensure_ascii=False))
+
+        return serializer.data
+
+    def test_leave(self, path_param=None):
+        if not path_param:
+            instance = self.test_create()
+
+            path_param = dict()
+            path_param['seq'] = instance['seq']
+
+        print('path_param')
+        print(path_param)
+
+        serializer = self.member_service.leave(path_param=path_param)
+
+        print('serializer')
+        print(json.dumps(serializer.data, ensure_ascii=False))
+
+    def test_create(self, params=None):
+        if not params:
+            params = dict()
+            params['username'] = 'mem1'
+            params['email'] = 'bomig88@gmail.com'
+            params['password'] = 'test!1234'
+            params['gender'] = Member.GenderChoice.N.value
+            params['birthday'] = '20010308'
+
+        print('params')
+        print(params)
+
+        serializer = self.member_service.create(params)
 
         print('serializer')
         print(json.dumps(serializer.data, ensure_ascii=False))
@@ -62,7 +156,7 @@ class TestAlbumService(TestCase):
         print('modify_params')
         print(modify_params)
 
-        serializer = self.artist_service.modify(
+        serializer = self.member_service.modify(
             path_param=path_param,
             params=modify_params,
             partial=True)
@@ -82,7 +176,7 @@ class TestAlbumService(TestCase):
         print('params')
         print(params)
 
-        serializer = self.artist_service.select(path_param=params)
+        serializer = self.member_service.select(path_param=params)
 
         print('serializer')
         print(json.dumps(serializer.data, ensure_ascii=False))
@@ -99,7 +193,7 @@ class TestAlbumService(TestCase):
         print('params')
         print(params)
 
-        model = self.artist_service.select_model(path_param=params)
+        model = self.member_service.select_model(path_param=params)
 
         print('model')
         print(json.dumps(model_to_dict(model), ensure_ascii=False, cls=DjangoJSONEncoder))
@@ -110,7 +204,7 @@ class TestAlbumService(TestCase):
         print('params')
         print(params)
 
-        serializer = self.artist_service.select_all(params=params)
+        serializer = self.member_service.select_all(params=params)
 
         print('serializer')
         print(json.dumps(serializer.data, ensure_ascii=False))
@@ -121,9 +215,12 @@ class TestAlbumService(TestCase):
         print('params')
         print(params)
 
-        models = self.artist_service.select_all_model(params=params)
+        models = self.member_service.select_all_model(params=params)
 
         print('models')
-        print(json.dumps(list(models.values()), ensure_ascii=False, cls=DjangoJSONEncoder))
+        if isinstance(models, QuerySet):
+            print(json.dumps(list(models.values()), ensure_ascii=False, cls=DjangoJSONEncoder))
+        else:
+            print(json.dumps([model_to_dict(item) for item in models], ensure_ascii=False, cls=DjangoJSONEncoder))
 
         return models

@@ -1,25 +1,27 @@
 # Python-Django Portfolio
 
 #### > [1. 프로젝트 개발환경 설정](#toc_10)
-* OS: windows10
-* python version: 3.8.1
+* OS: windows10 / ubuntu
+* docker: 24.0.6
+* python version: 3.10
 * Django: 4.2.4
-
+* Database: postgresql 13
+* Redis: latest
+* pycharm (Professional Edition): 2023.2.5 
+---
 #### > [2. 프로젝트 테스트](#toc_10)
-* 최초 시 
+* 최초 시
   * 데이터베이스 마이그레이션 진행
-    * python manage.py makemigrations --settings=_musicbox.settings.dev
-    * python manage.py migrate --settings=_musicbox.settings.dev
-  * 슈퍼 유저 생성
-    * python manage.py createsuperuser
-    * 서버 구동 후 어드민에 접근해서 로그인 한 다음 기본 설정 진행하기
+    - docker-compose-migrate 이용해서 진행
 
 * 서버 구동
-  * python manage.py runserver --settings=_musicbox.settings.dev
+  * docker-compose-runserver 이용해서 진행
+---
 * 어드민 페이지
-  * http://127.0.0.1:8000/admin/
+  * http://127.0.0.1:8080/admin/
+---
 * Swagger 페이지
-  * http://127.0.0.1:8000/swagger/
+  * http://127.0.0.1:8080/swagger/
   * 로그인 인증이 필요한 API 테스트 방법
     * 회원 > 회원 등록 진행 (이미 등록했다면 스킵)
     * 인증 > 인증 로그인 API 호출

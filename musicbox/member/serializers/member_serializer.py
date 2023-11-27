@@ -7,7 +7,8 @@ class MemberSerializer(serializers.ModelSerializer):
     """
     회원 Serializer
     """
-    password = serializers.CharField(allow_blank=True)
+    password = serializers.CharField(write_only=True)
+    simplicity_key = serializers.CharField(write_only=True, required=False)
 
     def validate_birthday(self, value):
         """ 생년월일 필드 validation
@@ -41,6 +42,51 @@ class MemberSerializer(serializers.ModelSerializer):
 
         return value
 
+    def validate_status(self, value):
+        """ status 필드 validation
+        Args:
+            value: 구분값(JOIN: 가입, LEAVE: 탈퇴)
+        Returns: value
+        """
+        # 성별 값이 nill인 경우
+        if value is not None:
+            # 성별 null 값으로 치환
+            value = value if value.strip() else None
+
+        # 값이 있을 때만 구분값 체크
+        if value and value not in Member.StatusChoice.values:
+            raise Exception('상태를 확인해주세요.')
+
+        return value
+
+    def validate_tag(self, value):
+        """ tag 필드 validation
+        Args:
+            value: 구분값(BASIC_USER: 일반 유저, SIMPLICITY_USER: 간편 가입 유저, MANAGER: 관리자, SUPER_MANAGER: 상위 관리자)
+        Returns: value
+        """
+        # 성별 값이 nill인 경우
+        if value is not None:
+            # 성별 null 값으로 치환
+            value = value if value.strip() else None
+
+        # 값이 있을 때만 구분값 체크
+        if value and value not in Member.TagChoice.values:
+            raise Exception('분류를 확인해주세요.')
+
+        return value
+
+    def create(self, validated_data):
+        if validated_data.get(Member.tag.field.name,
+                              Member.TagChoice.BASIC_USER.value) == Member.TagChoice.SIMPLICITY_USER.value \
+                and not validated_data.get(Member.simplicity_key.field.name, None):
+            raise Exception('간편 인증 값을 확인해주세요.')
+
+        # 회원 등록
+        member = Member.objects.create(**validated_data)
+
+        return member
+
     class Meta:
         model = Member
         fields = '__all__'
@@ -50,15 +96,27 @@ class MemberListSerializer(serializers.ModelSerializer):
     """
     회원 목록 Serializer
     """
+
     class Meta:
         model = Member
-        fields = '__all__'
+        exclude = [
+            Member.password.field.name,
+            Member.simplicity_key.field.name,
+            Member.groups.field.name,
+            Member.user_permissions.field.name,
+        ]
 
 
 class MemberDetailSerializer(serializers.ModelSerializer):
     """
     회원 상세 Serializer
     """
+
     class Meta:
         model = Member
-        fields = '__all__'
+        exclude = [
+            Member.password.field.name,
+            Member.simplicity_key.field.name,
+            Member.groups.field.name,
+            Member.user_permissions.field.name,
+        ]

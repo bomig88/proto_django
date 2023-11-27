@@ -28,6 +28,8 @@ class MemberService(BaseService):
         params['status'] = Member.StatusChoice.JOIN.value
         params['is_active'] = True
 
+        # TODO: 그룹 지정 추가 필요?
+
         return super().create(params)
 
     def register(self, params: dict):
@@ -41,7 +43,8 @@ class MemberService(BaseService):
             Exception
         """
         if 'username' in params and 'password' in params and 'email' in params \
-                and 'birthday' in params and 'gender' in params:
+                and 'birthday' in params and 'gender' in params\
+                and 'tag' in params:
 
             return self.create(params)
 

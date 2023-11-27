@@ -16,6 +16,7 @@ RES_DETAIL_NM = "member"
 
 
 class MemberView(APIView):
+    permission_classes = [AllowAny]
     member_service = Services.member_service()
 
     @swagger_auto_schema(

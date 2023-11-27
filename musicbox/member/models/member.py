@@ -22,10 +22,18 @@ class Member(AbstractBaseUser, PermissionsMixin):
         JOIN = 'join', '가입'
         LEAVE = 'leave', '탈퇴'
 
+    class TagChoice(models.TextChoices):
+        BASIC_USER = 'basic_user', '일반 사용자'
+        SIMPLICITY_USER = 'simplicity_user', '간편 가입 사용자'
+        MANAGER = 'manager', '관리자'
+        SUPER_MANAGER = 'super_manager', '상위 관리자'
+
     # 생년월일 날짜 포맷
     BIRTHDAY_FORMAT = '%Y%m%d'
     # 인증 관련 USERNAME 필드
     USERNAME_FIELD = "username"
+    # 이메일 필드 지정
+    EMAIL_FIELD = "email"
     # 인증 관련 사용자 사용 여부 필드
     ISACTIVE_FIELD = "status"
 
@@ -51,19 +59,33 @@ class Member(AbstractBaseUser, PermissionsMixin):
         help_text='이메일 주소'
     )
     gender = models.CharField(
-        null=True,
+        choices=GenderChoice.choices,
         max_length=1,
-        help_text='성별(M:남, F:여, N:미설정)'
+        help_text='성별(M:남, F:여, N:미설정)',
+        default=GenderChoice.N.value
     )
     birthday = models.CharField(
         null=True,
         max_length=8,
         help_text='생년월일'
     )
+    simplicity_key = models.CharField(
+        null=True,
+        blank=True,
+        max_length=320,
+        help_text='간편 인증 값'
+    )
     status = models.CharField(
         choices=StatusChoice.choices,
         max_length=30,
-        help_text='상태'
+        help_text='상태',
+        default=StatusChoice.JOIN.value
+    )
+    tag = models.CharField(
+        choices=TagChoice.choices,
+        max_length=30,
+        help_text='분류',
+        default=TagChoice.BASIC_USER.value
     )
     is_active = models.BooleanField(
         default=True,
@@ -87,6 +109,18 @@ class Member(AbstractBaseUser, PermissionsMixin):
         null=True,
         help_text='탈퇴일'
     )
+
+    @property
+    def is_superuser(self):
+        return self.tag == Member.TagChoice.SUPER_MANAGER.value
+
+    @property
+    def is_staff(self):
+        return self.tag in [Member.TagChoice.SUPER_MANAGER.value, Member.TagChoice.MANAGER.value]
+
+    @property
+    def is_user(self):
+        return self.tag in [Member.TagChoice.BASIC_USER.value, Member.TagChoice.SIMPLICITY_USER.value]
 
     def use_validation(self):
         is_use_valid = True
@@ -133,5 +167,5 @@ class Member(AbstractBaseUser, PermissionsMixin):
 
     class Meta:
         db_table = 't_mb_member'
-        unique_together = ('username', 'email')
+        unique_together = ('username', 'email', 'tag')
         ordering = ['-seq']

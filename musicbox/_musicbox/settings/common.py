@@ -32,6 +32,12 @@ INSTALLED_APPS = [
     'drf_yasg',
     '_musicbox',
     'member',
+    'product',
+    'seller',
+    'order',
+    'order_product',
+    'inquiry',
+    'inquiry_answer',
 ]
 
 REST_FRAMEWORK = {
@@ -78,12 +84,6 @@ WSGI_APPLICATION = '_musicbox.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',

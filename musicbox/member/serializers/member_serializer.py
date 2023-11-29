@@ -16,7 +16,7 @@ class MemberSerializer(serializers.ModelSerializer):
             value: 생년월일
         Returns: value
         """
-        # 생년월일 값이 nill인 경우
+        # 생년월일 값이 null인 경우
         if value is not None:
             # 생년월일 null 값으로 치환
             value = value if value.strip() else None
@@ -31,7 +31,7 @@ class MemberSerializer(serializers.ModelSerializer):
             value: 구분값(M: 남성, F: 여성, N: 미설정)
         Returns: value
         """
-        # 성별 값이 nill인 경우
+        # 성별 값이 null인 경우
         if value is not None:
             # 성별 null 값으로 치환
             value = value if value.strip() else None
@@ -48,9 +48,9 @@ class MemberSerializer(serializers.ModelSerializer):
             value: 구분값(JOIN: 가입, LEAVE: 탈퇴)
         Returns: value
         """
-        # 성별 값이 nill인 경우
+        # 상태 값이 null인 경우
         if value is not None:
-            # 성별 null 값으로 치환
+            # 상태 null 값으로 치환
             value = value if value.strip() else None
 
         # 값이 있을 때만 구분값 체크
@@ -65,9 +65,9 @@ class MemberSerializer(serializers.ModelSerializer):
             value: 구분값(BASIC_USER: 일반 유저, SIMPLICITY_USER: 간편 가입 유저, MANAGER: 관리자, SUPER_MANAGER: 상위 관리자)
         Returns: value
         """
-        # 성별 값이 nill인 경우
+        # 분류 값이 null인 경우
         if value is not None:
-            # 성별 null 값으로 치환
+            # 분류 null 값으로 치환
             value = value if value.strip() else None
 
         # 값이 있을 때만 구분값 체크

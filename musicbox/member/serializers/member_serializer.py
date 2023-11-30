@@ -77,11 +77,6 @@ class MemberSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
-        if validated_data.get(Member.tag.field.name,
-                              Member.TagChoice.BASIC_USER.value) == Member.TagChoice.SIMPLICITY_USER.value \
-                and not validated_data.get(Member.simplicity_key.field.name, None):
-            raise Exception('간편 인증 값을 확인해주세요.')
-
         # 회원 등록
         member = Member.objects.create(**validated_data)
 
@@ -101,7 +96,6 @@ class MemberListSerializer(serializers.ModelSerializer):
         model = Member
         exclude = [
             Member.password.field.name,
-            Member.simplicity_key.field.name,
             Member.groups.field.name,
             Member.user_permissions.field.name,
         ]
@@ -116,7 +110,6 @@ class MemberDetailSerializer(serializers.ModelSerializer):
         model = Member
         exclude = [
             Member.password.field.name,
-            Member.simplicity_key.field.name,
             Member.groups.field.name,
             Member.user_permissions.field.name,
         ]

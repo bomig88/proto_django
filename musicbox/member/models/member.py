@@ -24,7 +24,6 @@ class Member(AbstractBaseUser, PermissionsMixin):
 
     class TagChoice(models.TextChoices):
         BASIC_USER = 'basic_user', '일반 사용자'
-        SIMPLICITY_USER = 'simplicity_user', '간편 가입 사용자'
         MANAGER = 'manager', '관리자'
         SUPER_MANAGER = 'super_manager', '상위 관리자'
 
@@ -68,12 +67,6 @@ class Member(AbstractBaseUser, PermissionsMixin):
         null=True,
         max_length=8,
         help_text='생년월일'
-    )
-    simplicity_key = models.CharField(
-        null=True,
-        blank=True,
-        max_length=320,
-        help_text='간편 인증 값'
     )
     status = models.CharField(
         choices=StatusChoice.choices,
@@ -120,7 +113,7 @@ class Member(AbstractBaseUser, PermissionsMixin):
 
     @property
     def is_user(self):
-        return self.tag in [Member.TagChoice.BASIC_USER.value, Member.TagChoice.SIMPLICITY_USER.value]
+        return self.tag in [Member.TagChoice.BASIC_USER.value]
 
     def use_validation(self):
         is_use_valid = True

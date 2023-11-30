@@ -31,10 +31,8 @@ def api_client(request):
 
     response = api_client.post('/auth/login', login_param, format='json')
     print(f'login response.status_code = {response.status_code}')
+    print('login response.data', response.data, end='\n')
     assert response.status_code == 200
-
-    print('login response.data')
-    print(response.data)
 
     access_token = response.data['data']['auth']['access_token']
     refresh_token = response.data['data']['auth']['access_token']

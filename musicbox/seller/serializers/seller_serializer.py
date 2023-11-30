@@ -1,6 +1,5 @@
 from rest_framework import serializers
 
-from member.models.member import Member
 from seller.models.seller import Seller
 
 
@@ -44,10 +43,6 @@ class SellerSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
-        if validated_data.get(Seller.tag.field.name, Seller.TagChoice.INDIVIDUAL.value) == Seller.TagChoice.INCORPORATED.value \
-                and not validated_data.get(Seller.business_registration_number.field.name, None):
-            raise Exception('간편 인증 값을 확인해주세요.')
-
         # 판매자 등록
         seller = Seller.objects.create(**validated_data)
 

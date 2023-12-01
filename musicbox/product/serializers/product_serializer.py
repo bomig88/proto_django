@@ -8,12 +8,6 @@ class ProductSerializer(serializers.ModelSerializer):
     """
     상품 Serializer
     """
-    seller = SellerSimplificationSerializer(
-        many=False,
-        required=True,
-        source=Product.seller_seq.field.name
-    )
-
     def validate_status(self, value):
         """ status 필드 validation
         Args:

@@ -27,7 +27,7 @@ class MemberView(APIView):
         responses={status.HTTP_200_OK: MemberSerializer02.GetResponse()}
     )
     def get(self, request: Request, **kwargs: dict) -> Response:
-        """
+        """ 회원 목록 조회
         Args:
             request: 요청
             kwargs: path 파라미터
@@ -52,6 +52,13 @@ class MemberRegisterView(APIView):
         responses={status.HTTP_200_OK: MemberSerializer02.RegisterPostResponse()}
     )
     def post(self, request: Request):
+        """ 회원 등록
+        Args:
+            request: 요청
+                request.data: 등록할 회원 정보
+        Returns:
+            등록된 회원 정보
+        """
         serializer = self.member_service.register(request.data)
 
         return ResponseData.response_data(RES_DETAIL_NM, serializer.data)
@@ -67,7 +74,7 @@ class MemberDetailView(APIView):
         responses={status.HTTP_200_OK: MemberSerializer02.DetailGetResponse()}
     )
     def get(self, request: Request, **kwargs: dict) -> Response:
-        """
+        """ 회원 상세 조회
         Args:
             request: 요청
             kwargs: path 파라미터
@@ -89,6 +96,14 @@ class MemberLeaveView(APIView):
         responses={status.HTTP_200_OK: ResponseSerializer()}
     )
     def post(self, request: Request, **kwargs: dict) -> Response:
+        """ 회원 탈퇴
+        Args:
+            request: 요청
+                request.data: 탈퇴 관련 파라미터
+            **kwargs: path_params
+        Returns:
+            탈퇴 처리 성공
+        """
         self.member_service.leave(kwargs, request.data)
         # 회원 탈퇴에 따른 현재 로그인 인증의 로그아웃 처리
         BasePostHandleAuthentication().logout(request)

@@ -1,6 +1,6 @@
 from django.db import models
-from django_currentuser.db.models import CurrentUserField
 
+from core.fields.current_user_field import CurrentUserField
 from seller.models.seller import Seller
 
 
@@ -63,6 +63,7 @@ class Product(models.Model):
     )
     create_by = CurrentUserField(
         max_length=64,
+        default='admin',
         help_text='생성자'
     )
     create_at = models.DateTimeField(
@@ -72,6 +73,7 @@ class Product(models.Model):
     update_by = CurrentUserField(
         max_length=64,
         on_update=True,
+        default='admin',
         help_text='수정자'
     )
     update_at = models.DateTimeField(

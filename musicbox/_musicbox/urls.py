@@ -9,7 +9,9 @@ from drf_yasg import openapi
 
 schema_url_patterns = [
     path('auth', include('member.urls.auth_urls')),
-    path('members', include('member.urls.member_urls')),
+    path('member', include('member.urls.member_urls')),
+    path('seller', include('seller.urls.seller_urls')),
+    path('product', include('product.urls.product_urls')),
 
 ]
 
@@ -30,7 +32,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('auth', include('member.urls.auth_urls')),
-    path('members', include('member.urls.member_urls')),
+    path('member', include('member.urls.member_urls')),
+    path('seller', include('seller.urls.seller_urls')),
+    path('product', include('product.urls.product_urls')),
 
     # default page
     path('', lambda request: HttpResponse("Hello world"), name="index"),

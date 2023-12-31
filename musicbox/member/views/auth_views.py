@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenRefreshView, TokenVerifyView
 
-from _musicbox.containers import Services
+from config.containers import Services
 from member.views.serializers.auth_serializer import AuthSerializer02
 from core.auth.base_permissions import AllowAny, IsAuthenticated
 from core.auth.base_post_handle_authentication import BasePostHandleAuthentication

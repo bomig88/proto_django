@@ -1,0 +1,52 @@
+### 판매자 조회
+GET http://{{BASE_URL}}:{{PORT}}/seller?page=1
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+### 판매자 상세 조회
+GET http://{{BASE_URL}}:{{PORT}}/seller/1
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+### 개인 판매자 등록
+POST http://{{BASE_URL}}:{{PORT}}/seller
+Content-Type: application/json
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+{
+  "name": "개인사업자1",
+  "representative": "꽃게",
+  "corporate_registration_number": "12-111",
+  "business_registration_number": null,
+  "communication_seller_number": "983-22-1111",
+  "customer_center": "5-11-122",
+  "tag": "individual"
+}
+
+### 법인 판매자 등록
+POST http://{{BASE_URL}}:{{PORT}}/seller
+Content-Type: application/json
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+{
+  "name": "법인판매자1",
+  "representative": "어선",
+  "corporate_registration_number": "132-1121",
+  "business_registration_number": "9-11-12121212",
+  "communication_seller_number": "9833-22-1111",
+  "customer_center": "5-11-122",
+  "tag": "incorporated"
+}
+
+### 간이 과세자 등록
+POST http://{{BASE_URL}}:{{PORT}}/seller
+Content-Type: application/json
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+{
+  "name": "간이과세자1",
+  "representative": "바다거북",
+  "corporate_registration_number": "412-111",
+  "business_registration_number": "901-210983",
+  "communication_seller_number": "9183-22-1111",
+  "customer_center": "5-11-122",
+  "tag": "tax_player"
+}

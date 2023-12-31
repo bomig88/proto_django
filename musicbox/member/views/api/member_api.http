@@ -1,13 +1,13 @@
 ### 회원 조회
-GET http://{{BASE_URL}}:{{PORT}}/members
+GET http://{{BASE_URL}}:{{PORT}}/member
 Authorization: Bearer {{ACCESS_TOKEN}}
 
 ### 회원 상세 조회
-GET http://{{BASE_URL}}:{{PORT}}/members/1
+GET http://{{BASE_URL}}:{{PORT}}/member/1
 Authorization: Bearer {{ACCESS_TOKEN}}
 
 ### 회원 가입
-POST http://{{BASE_URL}}:{{PORT}}/members/register
+POST http://{{BASE_URL}}:{{PORT}}/member/register
 Content-Type: application/json
 
 {
@@ -20,7 +20,7 @@ Content-Type: application/json
 }
 
 ### 회원 탈퇴
-POST http://{{BASE_URL}}:{{PORT}}/members/1/leave
+POST http://{{BASE_URL}}:{{PORT}}/member/1/leave
 Content-Type: application/json
 Authorization: Bearer {{ACCESS_TOKEN}}
 

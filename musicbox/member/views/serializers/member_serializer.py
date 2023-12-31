@@ -14,7 +14,6 @@ class MemberSerializer01:
             model = Member
             exclude = [
                 Member.password.field.name,
-                Member.simplicity_key.field.name,
                 Member.groups.field.name,
                 Member.user_permissions.field.name,
             ]
@@ -25,7 +24,6 @@ class MemberSerializer01:
             model = Member
             exclude = [
                 Member.password.field.name,
-                Member.simplicity_key.field.name,
                 Member.groups.field.name,
                 Member.user_permissions.field.name,
             ]
@@ -36,7 +34,6 @@ class MemberSerializer01:
             model = Member
             exclude = [
                 Member.password.field.name,
-                Member.simplicity_key.field.name,
                 Member.groups.field.name,
                 Member.user_permissions.field.name,
             ]

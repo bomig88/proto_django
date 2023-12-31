@@ -1,0 +1,48 @@
+version: "3"
+
+services:
+  backend_django:
+    image: backend_django
+    build:
+       # docker build 명령을 실행할 directory 경로
+       context: .
+    environment:
+      - POSTGRES_DB=${LOCAL_DB_NAME}
+      - POSTGRES_USER=${LOCAL_DB_USER}
+      - POSTGRES_PASSWORD=${LOCAL_DB_PASSWORD}
+      - POSTGRES_HOST=${LOCAL_DB_HOST}
+      - POSTGRES_PORT=${LOCAL_DB_PORT}
+      - REDIS_HOST=${LOCAL_REDIS_HOST}
+      - REDIS_PORT=${LOCAL_REDIS_PORT}
+      - REDIS_DATABASE=${LOCAL_REDIS_DB}
+    depends_on:
+      - postgres
+      - redis
+    restart:
+      always
+    volumes:
+      - ./musicbox:/musicbox
+    ports:
+      - "8000:8000"
+    command: >
+      sh -c "python /musicbox/manage.py runserver 0.0.0.0:8000 --settings=config.settings.dev"
+  postgres:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=${LOCAL_DB_NAME}
+      - POSTGRES_USER=${LOCAL_DB_USER}
+      - POSTGRES_PASSWORD=${LOCAL_DB_PASSWORD}
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - ${LOCAL_DB_PORT}:${LOCAL_DB_PORT}
+  redis:
+    image: redis:latest
+    ports:
+      - ${LOCAL_REDIS_PORT}:${LOCAL_REDIS_PORT}
+    command: redis-server --save ""
+
+volumes:
+  postgres-data:
+    driver: local

@@ -1,0 +1,23 @@
+### 상품 조회
+GET http://{{BASE_URL}}:{{PORT}}/product?page=1
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+### 상품 상세 조회
+GET http://{{BASE_URL}}:{{PORT}}/product/2
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+### 상품 등록
+POST http://{{BASE_URL}}:{{PORT}}/product
+Content-Type: application/json
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+{
+  "name": "테스트상품2",
+  "seller_seq": 2,
+  "representation_image": null,
+  "org_price": 10000,
+  "sale_price": 5000,
+  "discount_rate": 50,
+  "tax_flag": 0,
+  "counsel_telephone": null
+}

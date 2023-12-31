@@ -4,7 +4,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from _musicbox.containers import Services
+from config.containers import Services
 from core.base.response_data import ResponseData
 from seller.views.serializers.seller_serializer import SellerSerializer02
 

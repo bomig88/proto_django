@@ -16,7 +16,7 @@ def api_client(request):
     params['email'] = 'bomig@gmail.com'
     params['tag'] = Member.TagChoice.SUPER_MANAGER.value
 
-    from _musicbox.containers import Services
+    from config.containers import Services
     member_service = Services.member_service()
     try:
         member = member_service.select({'username': username})

@@ -21,7 +21,7 @@ class ProductService(BaseService):
         # 판매자 존재 유무 및 탈퇴 또는 제재 판매자인지 확인
         seller_seq = params.get('seller_seq', None)
         if seller_seq:
-            from _musicbox.containers import Services
+            from config.containers import Services
             seller = Services.seller_service().select_model({'seq': params.get('seller_seq')})
             if seller:
                 if seller.status == Seller.StatusChoice.SANCTIONS.value:

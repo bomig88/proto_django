@@ -87,7 +87,7 @@ class TestMemberApi(TestCase):
         assert response.status_code == 200
         assert response.data['success'] == True
 
-        from _musicbox.containers import Services
+        from config.containers import Services
         leave_member_serializer = Services.member_service().select(path_param={'seq': basic_user_seq})
         print('leave_member_serializer', leave_member_serializer.data)
         assert leave_member_serializer.data.get('status') == Member.StatusChoice.LEAVE.value

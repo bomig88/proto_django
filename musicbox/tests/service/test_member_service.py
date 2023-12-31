@@ -1,7 +1,7 @@
 import pytest
 from django.test import TestCase
 
-from _musicbox.containers import Services
+from config.containers import Services
 from member.models.member import Member
 
 

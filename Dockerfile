@@ -10,6 +10,6 @@ RUN apt-get -y install gcc
 COPY ./musicbox /musicbox
 COPY requirements.txt /requirements.txt
 
-WORKDIR /musicbox/tests/
+WORKDIR /musicbox
 
 RUN pip install --no-cache-dir --upgrade -r /requirements.txt

@@ -8,9 +8,9 @@ def main():
     """Run administrative tasks."""
     if sys.argv[1:2] == ["test"]:
         print('using settings_test.py')
-        os.environ.setdefault('DJANGO_SETTINGS_MODULE', '_musicbox.settings.dev')
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.dev')
     else:
-        os.environ.setdefault('DJANGO_SETTINGS_MODULE', '_musicbox.settings.dev')
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.dev')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

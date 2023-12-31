@@ -23,11 +23,11 @@ services:
     volumes:
       - ./musicbox:/musicbox
     ports:
-      - "8080:8080"
+      - "8000:8000"
     command: >
-      sh -c "python /musicbox/manage.py makemigrations --settings=_musicbox.settings.dev &&
-             python /musicbox/manage.py migrate --settings=_musicbox.settings.dev &&
-             python /musicbox/manage.py runserver 0.0.0.0:8080 --settings=_musicbox.settings.dev"
+      sh -c "python /musicbox/manage.py makemigrations --settings=config.settings.prod &&
+             python /musicbox/manage.py migrate --settings=config.settings.prod &&
+             python /musicbox/manage.py runserver 0.0.0.0:8080 --settings=config.settings.prod"
   postgres:
     image: postgres:13
     environment:

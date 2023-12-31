@@ -1,8 +1,8 @@
 version: "3"
 
 services:
-  musicbox_django:
-    image: musicbox_django
+  backend_django:
+    image: backend_django
     build:
        # docker build 명령을 실행할 directory 경로
        context: .
@@ -22,10 +22,11 @@ services:
       always
     volumes:
       - ./musicbox:/musicbox
-    ports:
-      - "8080:8080"
-    command: >
-      sh -c "python /musicbox/manage.py runserver 0.0.0.0:8080 --settings=_musicbox.settings.dev"
+      - django_static:/musicbox/static/
+      - django_media:/musicbox/media/
+    expose:
+      - "8000:8000"
+    entrypoint: sh -c "python /musicbox/manage.py collectstatic --settings=config.settings.prod --no-input --clear && gunicorn --env DJANGO_SETTINGS_MODULE=config.settings.dev --workers=5 -b 0.0.0.0:8000 --chdir /musicbox config.wsgi"
   postgres:
     image: postgres:13
     environment:
@@ -42,7 +43,21 @@ services:
     ports:
       - ${LOCAL_REDIS_PORT}:${LOCAL_REDIS_PORT}
     command: redis-server --save ""
-
+  nginx:
+    container_name : nginx
+    image: nginx:1.25.0-alpine
+    ports:
+      - "1337:80"
+      - "433:433"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - django_static:/data/static
+      - django_media:/data/media
+    depends_on:
+      - backend_django
+    restart: always
 volumes:
   postgres-data:
     driver: local
+  django_media:
+  django_static:

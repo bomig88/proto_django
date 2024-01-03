@@ -202,3 +202,26 @@ class SellerSerializer02:
 
         class Meta:
             ref_name = __qualname__
+
+    class DetailPatchRequest(serializers.Serializer):
+        name = SellerSerializer01.Field.name(required=False)
+        representative = SellerSerializer01.Field.representative(required=False)
+        tag = SellerSerializer01.Field.tag(required=False)
+
+        class Meta:
+            ref_name = __qualname__
+
+    class DetailPatchResponse(ResponseSerializer):
+        class DetailPatchResponseData(serializers.Serializer):
+            seller = SellerSerializer01.Detail(help_text="수정된 판매자 정보")
+
+            class Meta:
+                ref_name = __qualname__
+
+        data = DetailPatchResponseData(
+            required=False,
+            help_text="응답 데이터"
+        )
+
+        class Meta:
+            ref_name = __qualname__

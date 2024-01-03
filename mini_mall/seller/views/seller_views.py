@@ -75,3 +75,21 @@ class SellerDetailView(APIView):
         serializer = self.seller_service.select(kwargs)
 
         return ResponseData.response_data(RES_DETAIL_NM, serializer.data)
+
+    @swagger_auto_schema(
+        tags=[NM],
+        operation_summary="{} 상세 부분 수정".format(NM),
+        operation_description="{} 상세 부분 수정".format(NM),
+        request_body=SellerSerializer02.DetailPatchRequest(),
+        responses={status.HTTP_200_OK: SellerSerializer02.DetailPatchResponse()}
+    )
+    def patch(self, request: Request, **kwargs: dict) -> Response:
+        """ 판매자 부분 수정
+        Args:
+            request: 요청
+            **kwargs: path 파라미터
+        Returns:
+        """
+        serializer = self.seller_service.modify(path_param=kwargs, params=request.data, partial=True)
+
+        return ResponseData.response_data(RES_DETAIL_NM, serializer.data)

@@ -25,7 +25,8 @@ services:
     ports:
       - "8080:8080"
     command: >
-      sh -c "python -m pytest"
+      sh -c "cd tests
+             python -m pytest"
   postgres:
     image: postgres:13
     environment:

@@ -37,8 +37,6 @@ INSTALLED_APPS = [
     'seller',
     'order',
     'order_product',
-    'inquiry',
-    'inquiry_answer',
 ]
 
 REST_FRAMEWORK = {

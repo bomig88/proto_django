@@ -12,7 +12,7 @@ class TestMemberService(TestCase):
     """
     member_service = Services.member_service()
 
-    def test_crud_member(self):
+    def test_crud(self):
         # register
         basic_user_params = dict()
         basic_user_params['username'] = 'regit1'
@@ -22,8 +22,8 @@ class TestMemberService(TestCase):
         basic_user_params['email'] = 'regit1@gmail.com'
         basic_user_params['tag'] = Member.TagChoice.BASIC_USER.value
 
-        register_basic_user_instance = self.member_service.register(basic_user_params)
-        assert register_basic_user_instance.data.get('tag') == Member.TagChoice.BASIC_USER.value
+        register_basic_user = self.member_service.register(basic_user_params)
+        assert register_basic_user.data.get('tag') == Member.TagChoice.BASIC_USER.value
 
         manager_params = dict()
         manager_params['username'] = 'regit2'
@@ -33,8 +33,8 @@ class TestMemberService(TestCase):
         manager_params['email'] = 'regit2@gmail.com'
         manager_params['tag'] = Member.TagChoice.MANAGER.value
 
-        register_manager_instance = self.member_service.register(manager_params)
-        assert register_manager_instance.data.get('tag') == Member.TagChoice.MANAGER.value
+        register_manager = self.member_service.register(manager_params)
+        assert register_manager.data.get('tag') == Member.TagChoice.MANAGER.value
 
         super_manager_params = dict()
         super_manager_params['username'] = 'regit3'
@@ -44,10 +44,10 @@ class TestMemberService(TestCase):
         super_manager_params['email'] = 'regit3@gmail.com'
         super_manager_params['tag'] = Member.TagChoice.SUPER_MANAGER.value
 
-        register_super_manager_instance = self.member_service.register(super_manager_params)
-        assert register_super_manager_instance.data.get('tag') == Member.TagChoice.SUPER_MANAGER.value
+        register_super_manager = self.member_service.register(super_manager_params)
+        assert register_super_manager.data.get('tag') == Member.TagChoice.SUPER_MANAGER.value
 
-        member_seq = register_basic_user_instance.data.get('seq')
+        member_seq = register_basic_user.data.get('seq')
         path_param = {'seq': member_seq}
 
         # select

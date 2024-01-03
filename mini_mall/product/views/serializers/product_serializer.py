@@ -208,3 +208,25 @@ class ProductSerializer02:
 
         class Meta:
             ref_name = __qualname__
+
+    class DetailPatchRequest(serializers.Serializer):
+        name = ProductSerializer01.Field.name(required=False)
+        representation_image = ProductSerializer01.Field.representation_image(required=False)
+
+        class Meta:
+            ref_name = __qualname__
+
+    class DetailPatchResponse(ResponseSerializer):
+        class DetailPatchResponseData(serializers.Serializer):
+            product = ProductSerializer01.Detail(help_text="수정된 상품 정보")
+
+            class Meta:
+                ref_name = __qualname__
+
+        data = DetailPatchResponseData(
+            required=False,
+            help_text="응답 데이터"
+        )
+
+        class Meta:
+            ref_name = __qualname__

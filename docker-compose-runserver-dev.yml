@@ -21,11 +21,11 @@ services:
     restart:
       always
     volumes:
-      - ./musicbox:/musicbox
+      - ./mini_mall:/mini_mall
     ports:
       - "8000:8000"
     command: >
-      sh -c "python /musicbox/manage.py runserver 0.0.0.0:8000 --settings=config.settings.dev"
+      sh -c "python /mini_mall/manage.py runserver 0.0.0.0:8000 --settings=config.settings.dev"
   postgres:
     image: postgres:13
     environment:

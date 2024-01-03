@@ -1,8 +1,8 @@
 version: "3"
 
 services:
-  musicbox_django:
-    image: musicbox_django
+  backend_django:
+    image: backend_django
     build:
        # docker build 명령을 실행할 directory 경로
        context: .
@@ -21,11 +21,12 @@ services:
     restart:
       always
     volumes:
-      - ./musicbox:/musicbox
+      - ./mini_mall:/mini_mall
     ports:
       - "8080:8080"
     command: >
-      sh -c "python -m pytest"
+      sh -c "cd tests
+             python -m pytest"
   postgres:
     image: postgres:13
     environment:

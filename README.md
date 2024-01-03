@@ -11,7 +11,14 @@
 * gunicorn: 21.2.0
 * pycharm (Professional Edition): 2023.2.5 
 ---
-#### > [2. 프로젝트 테스트](#toc_10)
+#### > [2. 프로젝트 구조](#toc_10)
+- Member : 회원/관리자
+- Seller : 판매자
+- Product : 상품
+- Order : 주문 (예정)
+- OrderProduct : 주문 상품 (예정)
+---
+#### > [3. 프로젝트 테스트](#toc_10)
 * 최초 시
   * 데이터베이스 마이그레이션 진행
     - docker-compose-migrate 이용해서 진행
@@ -19,19 +26,19 @@
 * 서버 구동
   * docker-compose-runserver 이용해서 진행
 ---
-#### > [3. 호스트](#toc_10)
+#### > [4. 호스트](#toc_10)
 * dev (docker-compose-runserver-dev build)
   * http://localhost:8000/
 * prod (docker-compose-runserver-prod build)
   * http://localhost:1337/
 ---
-#### > [4.어드민 페이지](#toc_10)
+#### > [5.어드민 페이지](#toc_10)
 * dev (docker-compose-runserver-dev build)
   * http://localhost:8000/admin/
 * prod (docker-compose-runserver-dev build)
   * http://localhost:1337/admin/
 ---
-#### > [5. Swagger 페이지](#toc_10)  
+#### > [6. Swagger 페이지](#toc_10)  
 * dev (docker-compose-runserver-dev build)
   * http://localhost:8000/swagger/
 * prod (docker-compose-runserver-dev build)
@@ -46,6 +53,12 @@
             * ex. Bearer eyJhbGciOiw...aj2mIufwjZNk
         * 팝업의 Authorize 버튼 클릭해서 승인
         * 인증이 필요한 다른 API 호출 가능
+---
+#### > [7. redoc 페이지](#toc_10)
+* dev dev (docker-compose-runserver-dev build)
+  * http://localhost:8000/redoc/
+* prod (docker-compose-runserver-dev build)
+  * http://localhost:1337/redoc/
 ---
 #### > [99. 이슈 기록](#toc_10)
 * backports.zoneinfo 라이브러리는 python 3.9 미만에서 동작하므로, requriements.txt의 관련 정보를 아래와 같이 기입하여야 docker 빌드가 성공적으로 진행될 수 있다.

@@ -2,4 +2,4 @@ from django.contrib import admin
 
 from seller.models.seller import Seller
 
-admin.register(Seller)
+admin.site.register(Seller)

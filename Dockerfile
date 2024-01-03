@@ -7,9 +7,9 @@ RUN apt-get update
 ## gcc 설치(uWSGI 설치 시 필요)
 RUN apt-get -y install gcc
 
-COPY ./musicbox /musicbox
+COPY ./mini_mall /mini_mall
 COPY requirements.txt /requirements.txt
 
-WORKDIR /musicbox
+WORKDIR /mini_mall
 
 RUN pip install --no-cache-dir --upgrade -r /requirements.txt

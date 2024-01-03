@@ -1,8 +1,8 @@
 version: "3"
 
 services:
-  musicbox_django:
-    image: musicbox_django
+  backend_django:
+    image: backend_django
     build:
        # docker build 명령을 실행할 directory 경로
        context: .
@@ -21,13 +21,13 @@ services:
     restart:
       always
     volumes:
-      - ./musicbox:/musicbox
+      - ./mini_mall:/mini_mall
     ports:
       - "8000:8000"
     command: >
-      sh -c "python /musicbox/manage.py makemigrations --settings=config.settings.dev &&
-             python /musicbox/manage.py migrate --settings=config.settings.dev &&
-             python /musicbox/manage.py runserver 0.0.0.0:8080 --settings=config.settings.dev"
+      sh -c "python /mini_mall/manage.py makemigrations --settings=config.settings.dev &&
+             python /mini_mall/manage.py migrate --settings=config.settings.dev &&
+             python /mini_mall/manage.py runserver 0.0.0.0:8000 --settings=config.settings.dev"
   postgres:
     image: postgres:13
     environment:

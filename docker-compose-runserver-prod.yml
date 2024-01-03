@@ -21,12 +21,16 @@ services:
     restart:
       always
     volumes:
-      - ./musicbox:/musicbox
-      - django_static:/musicbox/static/
-      - django_media:/musicbox/media/
+      - ./mini_mall:/mini_mall
+      - django_static:/mini_mall/static/
+      - django_media:/mini_mall/media/
     expose:
       - "8000:8000"
-    entrypoint: sh -c "python /musicbox/manage.py collectstatic --settings=config.settings.prod --no-input --clear && gunicorn --env DJANGO_SETTINGS_MODULE=config.settings.dev --workers=5 -b 0.0.0.0:8000 --chdir /musicbox config.wsgi"
+    entrypoint: >
+      sh -c "python /mini_mall/manage.py collectstatic --settings=config.settings.prod --no-input --clear && 
+             python /mini_mall/manage.py makemigrations --settings=config.settings.prod && 
+             python /mini_mall/manage.py migrate --settings=config.settings.prod && 
+             gunicorn --env DJANGO_SETTINGS_MODULE=config.settings.dev --workers=5 -b 0.0.0.0:8000 --chdir /mini_mall config.wsgi"
   postgres:
     image: postgres:13
     environment:
